@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Party</title>
+    <link rel="icon" href="../../dmicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../dmicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="partyStyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../components/navbarStyle.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+    <script defer src="partyJS.js"></script>
+</head>
+<body>
+<header id="navbar-container">
+    <nav id="navbar">
+        <div class="logo">
+            <img src="../../dmtransparant.png" alt="Dungeons and Muffins Logo">
+            <h2 class="site-title">Dungeons & Muffins</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="./../../index.html">Home</a></li>
+            <li><a href="../map/map.html">Map</a></li>
+            <li><a href="#">Party</a></li>
+            <li><a href="../npc/npc.html">NPC</a></li>
+            <!-- Authentication Links -->
+            <li id="login-register-link" style="display: none;"><a href="../registration/signin.html">Login/Register</a></li>
+            <li id="logout-link" style="display: none;"><a href="./../../index.html">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<div class="content-flex-container"> <!-- New div to apply flexbox properties -->
+    <div id="cards-container">
+        <!-- The Add Card -->
+        <div class="card add-card" onclick="window.location.href='/add-character.html';">
+            <div class="add-content">
+                <span class="add-icon">+ Add Character</span>
+            </div>
+        </div>
+        <!-- Placeholder for Character Cards -->
+    </div>
+    <!-- The Modal -->
+    <div id="addCharacterModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Character</h2>
+            <!-- Updated form with all fields -->
+            <form id="addCharacterForm">
+                <input type="text" placeholder="Name" name="name" required>
+                <input type="text" placeholder="Race" name="race" required>
+                <input type="text" placeholder="Class" name="class" required>
+                <input type="number" placeholder="Level" name="level" min="1" required>
+                <input type="number" placeholder="Armour Class" name="armourclass" min="1" required>
+                <textarea placeholder="Backstory" name="backstory" required></textarea>
+                <input type="text" placeholder="Alignment" name="alignment" required>
+                <input type="text" placeholder="Player Name" name="playername" required>
+                <input type="number" placeholder="Strength" name="strength" required>
+                <input type="number" placeholder="Dexterity" name="dexterity" required>
+                <input type="number" placeholder="Constitution" name="constitution" required>
+                <input type="number" placeholder="Intelligence" name="intelligence" required>
+                <input type="number" placeholder="Wisdom" name="wisdom" required>
+                <input type="number" placeholder="Charisma" name="charisma" required>
+                <input type="text" placeholder="Hit Points" name="hitpoints" required>
+                <textarea placeholder="Equipment" name="equipment" required></textarea>
+                <textarea placeholder="Spells" name="spells" required></textarea>
+                <input type="text" placeholder="Factions" name="factions" required>
+                <textarea placeholder="Personality Traits" name="personalitytraits" required></textarea>
+                <textarea placeholder="Ideals" name="ideals" required></textarea>
+                <textarea placeholder="Bonds" name="bonds" required></textarea>
+                <textarea placeholder="Flaws" name="flaws" required></textarea>
+                <button type="submit">Add Character</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script defer type="module" src="./../../lib/components/navbarLoader.js"></script>
+</body>
+</html>

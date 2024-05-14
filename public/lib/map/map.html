@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map - Dryle</title>
+    <link rel="icon" href="../../dmicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../dmicon.png" type="image/x-icon">
+    <!-- Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- ------------------ -->
+    <link rel="stylesheet" href="mapStyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../components/navbarStyle.css">
+    <link rel="preload" href="./Dryle.png" as="image">
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+    <script defer type="module" src="app.js"></script>
+</head>
+<body>
+<header id="navbar-container">
+    <nav id="navbar">
+        <div class="logo">
+            <img src="../../dmtransparant.png" alt="Dungeons and Muffins Logo">
+            <h2 class="site-title">Dungeons & Muffins</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="./../../index.html">Home</a></li>
+            <li><a href="#">Map</a></li>
+            <li><a href="../party/party.html">Party</a></li>
+            <li><a href="../npc/npc.html">NPC</a></li>
+            <!-- Authentication Links -->
+            <li id="login-register-link" style="display: none;"><a href="../registration/signin.html">Login/Register</a></li>
+            <li id="logout-link" style="display: none;"><a href="./../../index.html">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<div id="sidebar" class="sidebar">
+    <div id="sidebar-content">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+    <div class="sidebar-footer">
+        <button id="close-sidebar">Close</button>
+    </div>
+</div>
+<div id="cityFormModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>City Details</h2>
+        <form id="addCityForm">
+            <label for="cityName">Name:</label>
+            <input type="text" id="cityName" name="name" required>
+            <label for="cityDescription">Description:</label>
+            <textarea id="cityDescription" name="description"></textarea>
+            <label for="cityNpc">NPC:</label>
+            <input type="text" id="cityNpc" name="npc">
+            <label for="cityHistory">History:</label>
+            <textarea id="cityHistory" name="history"></textarea>
+            <label for="cityCulture">Culture:</label>
+            <textarea id="cityCulture" name="culture"></textarea>
+            <label for="cityEconomy">Economy:</label>
+            <textarea id="cityEconomy" name="economy"></textarea>
+            <label for="cityPolitics">Politics:</label>
+            <textarea id="cityPolitics" name="politics"></textarea>
+            <label for="cityReligion">Religion:</label>
+            <textarea id="cityReligion" name="religion"></textarea>
+            <label for="cityClimate">Climate:</label>
+            <textarea id="cityClimate" name="climate"></textarea>
+            <label for="cityPointsOfInterest">Points of Interest:</label>
+            <textarea id="cityPointsOfInterest" name="points_of_interest"></textarea>
+            <label for="cityPopulations">Populations:</label>
+            <input type="text" id="cityPopulations" name="populations">
+            <input type="submit" value="Save City">
+        </form>
+    </div>
+</div>
+<div id="fantasyMap"></div>
+<button id="drawPolygon">Start Drawing</button>
+
+<script defer type="module" src="./../../lib/components/navbarLoader.js"></script>
+</body>
+</html>

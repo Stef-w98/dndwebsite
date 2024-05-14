@@ -1,0 +1,136 @@
+:root {
+    --background-color: #121212;
+    --text-color: #fff;
+    --accent-color: #2d7ffa; /* Consider a more vibrant shade if needed */
+    --card-background-color: #262626; /* Darker card background for contrast */
+    --section-padding: 50px 20px;
+    --container-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5); /* More pronounced shadow for depth */
+    --transition-speed: 0.3s;
+    --card-border-radius: 8px; /* Rounded corners for cards */
+}
+
+/* Custom scrollbar styles */
+/* Works for Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+    width: 8px; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+    background: #2c2c2c; /* Scrollbar track color */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444; /* Scrollbar handle color */
+    border-radius: 4px; /* Scrollbar handle border radius */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Scrollbar handle color on hover */
+}
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+/* Global link styles */
+a {
+    color: var(--accent-color);
+    text-decoration: none; /* Added underline to make links more noticeable */
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: #ffffff;
+    text-decoration: none; /* Removing underline on hover for a clean transition */
+}
+
+/* Hero Section Text Enhancement */
+.hero {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    height: 100vh;
+    animation: fadeIn var(--transition-speed) ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.backgroundimg{
+    width: 100%;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    top: -80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    color: white;
+    font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.hero-content img {
+    width: 460px;
+    height: auto;
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.hero-content h1 {
+    font-size: 3em; /* Increased initial size for impact */
+    margin-bottom: 0.5em;
+}
+
+.hero-content p {
+    font-size: 1.5em; /* Slightly larger paragraph font size for readability */
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@keyframes scaleDown {
+    from { transform: scale(1.2); }
+    to { transform: scale(1); }
+}
+
+/* Enhanced Card Design */
+.features, .about {
+    padding: var(--section-padding);
+    text-align: center;
+    background-color: var(--card-background-color);
+    box-shadow: var(--container-shadow);
+    margin: 20px auto; /* Centering cards */
+    border-radius: var(--card-border-radius);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.features:hover, .about:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.4);
+}
+
+.feature-item {
+    margin-bottom: 30px;
+    text-align: center;
+    transition: background-color var(--transition-speed);
+}
+
+.feature-item:hover {
+    background-color: #1e1e1e; /* Slightly lighter on hover for interactivity */
+}
+
+h2, h3 {
+    color: var(--accent-color);
+}

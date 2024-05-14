@@ -1,0 +1,198 @@
+:root {
+    --background-color: #121212;
+    --text-color: #fff;
+    --accent-color: #2d7ffa;
+    --card-background-color: #262626;
+    --section-padding: 50px 20px;
+    --container-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    --transition-speed: 0.3s;
+    --card-border-radius: 8px;
+    --input-background-color: #333;
+    --border-color: #555;
+    --border-focus-color: var(--accent-color);
+    --modal-content-background-color: #333;
+    --modal-width: 80%;
+    --modal-max-width: 800px; /* Adjusted for a wider form */
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    overflow-x: hidden; /* Changed to hide horizontal overflow */
+}
+
+.content-flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+#cards-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    overflow-x: auto;
+    padding: var(--section-padding);
+    align-items: flex-start;
+}
+
+.card {
+    width: 14rem;
+    min-height: 30rem;
+    background-color: var(--card-background-color);
+    box-shadow: var(--container-shadow);
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid transparent;
+}
+
+.card img {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+}
+
+.card h3, .card p {
+    color: var(--text-color);
+    margin: 10px 0;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+    border-color: var(--accent-color);
+}
+
+.add-icon, .add-content p {
+    color: var(--accent-color);
+}
+
+.add-card {
+    order: 1;
+    color: var(--accent-color);
+    background-color: var(--card-background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+.add-card:hover {
+    background-color: #333;
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.card-title {
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.card-text {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    padding: 20px;
+    width: var(--modal-width);
+    max-width: var(--modal-max-width);
+    margin: 5% auto; /* Adjusted for better vertical alignment */
+    background-color: var(--modal-content-background-color);
+    border-radius: var(--card-border-radius); /* Adds rounded corners for a modern look */
+    color: var(--text-color); /* Ensures modal text is styled correctly */
+    box-shadow: var(--container-shadow); /* Consistent shadow with cards */
+}
+
+.modal-content form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.modal-content form textarea, .modal-content form input[type="text"], .modal-content form input[type="number"] {
+    height: auto;
+    min-height: 40px; /* Provides more room for input */
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    resize: vertical;
+    width: 100%; /* Ensures inputs use available space */
+}
+
+.modal-content form input[type="text"]:focus, .modal-content form input[type="number"]:focus, .modal-content form textarea:focus {
+    border-color: var(--border-focus-color);
+    outline: none;
+}
+
+.modal-content form button {
+    grid-column: 1 / -1;
+    padding: 12px 0;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    border: none;
+    border-radius: var(--card-border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.modal-content form button:hover {
+    background-color: darken(var(--accent-color), 10%); /* Slightly darkens the button on hover for feedback */
+}
+
+.close {
+    cursor: pointer;
+    transition: color var(--transition-speed);
+}
+
+.close:hover {
+    color: var(--accent-color);
+}

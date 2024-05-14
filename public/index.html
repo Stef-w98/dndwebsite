@@ -3,10 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Website</title>
+    <title>Dungeons and Muffins</title>
+    <link rel="icon" href="dmicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="dmicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="lib/home/homeStyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="lib/components/navbarStyle.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
 </head>
 <body>
-<h1 style="color: blue">Welcome to the Test Website!</h1>
-<p>This is a simple test website running on Node.js and Express.</p>
+<header id="navbar-container">
+    <nav id="navbar">
+        <div class="logo">
+            <img src="dmtransparant.png" alt="Dungeons and Muffins Logo">
+            <h2 class="site-title">Dungeons & Muffins</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="./lib/map/map.html">Map</a></li>
+            <li><a href="./lib/party/party.html">Party</a></li>
+            <li><a href="./lib/npc/npc.html">NPC</a></li>
+            <!-- Authentication Links -->
+            <li id="login-register-link" style="display: none;"><a href="./lib/registration/signin.html">Login/Register</a></li>
+            <li id="logout-link" style="display: none;"><a href="#">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <img class="backgroundimg" src="dmbackground.jpg" alt="background">
+    <div class="hero-content">
+        <img src="dmtransparant.png" alt="logo">
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about">
+    <h2>About Our Campaign</h2>
+    <p>Welcome to an epic adventure set in the fantastical world of Dryle, where heroes rise and legends are born.</p>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <h2>Features</h2>
+    <div class="feature-item">
+        <h3>Interactive Map</h3>
+        <p>Explore the vast lands of our realm, from the dark forests of Merkwood to the bustling streets of Eldrimar.</p>
+    </div>
+    <div class="feature-item">
+        <h3>Meet the Heroes</h3>
+        <p>Discover the brave souls who traverse the dangerous paths of Dryle in search of glory and honor.</p>
+    </div>
+</section>
+
+
+
+<script defer>
+
+    document.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY;
+        const heroContent = document.querySelector('.hero-content');
+        const scale = 1 + scrollPosition * 0.001; // Slight scale based on scroll
+        const translateY = scrollPosition * -0.1; // Moves content up
+
+        heroContent.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
+    });
+
+</script>
+<script defer type="module" src="lib/components/navbarLoader.js"></script>
 </body>
 </html>

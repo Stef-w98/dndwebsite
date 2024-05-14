@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="icon" href="../../dmicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../dmicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../components/navbarStyle.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2c2c2c;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            width: 100%;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .form-box {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .form-box h2 {
+            margin: 10px 0 20px;
+            font-weight: 500;
+        }
+        form {
+            display: grid;
+            gap: 15px;
+        }
+        input[type="email"] {
+            padding: 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: #555;
+            color: white;
+            font-size: 16px;
+        }
+
+        input[type="password"] {
+            padding: 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: #555;
+            color: white;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 15px;
+            background-color: #2d7ffa;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        button:hover {
+            background-color: #143772;
+        }
+
+        .mt-20 { margin-top: 20px; }
+
+        .input-container {
+            position: relative;
+            background-color: #555;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input-container input[type="text"] {
+            flex-grow: 1;
+            padding: 15px;
+            padding-right: 80px; /* Make room for the button */
+            border-radius: 8px;
+            border: none;
+            background-color: #555;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-container input[type="password"] {
+            flex-grow: 1;
+            padding: 15px;
+            padding-right: 80px; /* Make room for the button */
+            border-radius: 8px;
+            border: none;
+            background-color: #555;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%; /* Ensures button fills the container height */
+            border: none;
+            background: none; /* Background is transparent by default */
+            color: #bbb;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0 15px; /* Adjust padding as needed */
+            border-radius: 0 8px 8px 0; /* Rounded corners on the right side */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .show-password:focus, .show-password:hover {
+            color: #fff;
+            background-color: #444; /* Darker background on hover/focus */
+            text-decoration: none;
+            outline: none; /* Removes the outline to keep the UI clean */
+        }
+
+    </style>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+</head>
+<body>
+<header id="navbar-container">
+    <nav id="navbar">
+        <div class="logo">
+            <img src="../../dmtransparant.png" alt="Dungeons and Muffins Logo">
+            <h2 class="site-title">Dungeons & Muffins</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../map/map.html">Map</a></li>
+            <li><a href="../party/party.html">Party</a></li>
+            <li><a href="../npc/npc.html">NPC</a></li>
+            <!-- Authentication Links -->
+            <li id="login-register-link" style="display: none;"><a href="#">Login/Register</a></li>
+            <li id="logout-link" style="display: none;"><a href="../../index.html">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<div class="content">
+    <div class="form-box">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required>
+            <div class="input-container">
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="button" class="show-password" onclick="togglePasswordVisibility('login-password')">Show</button>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="mt-20"></div> <!-- Spacer -->
+
+        <h2>Register</h2>
+        <form id="registration-form">
+            <input type="email" id="register-email" placeholder="Email" required>
+            <div class="input-container">
+                <input type="password" id="register-password" placeholder="Password" required>
+                <button type="button" class="show-password" onclick="togglePasswordVisibility('register-password')">Show</button>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</div>
+<script defer type="module" src="register.js"></script>
+<script defer>
+    // Existing function to toggle password visibility
+    function togglePasswordVisibility(passwordInputId) {
+        var input = document.getElementById(passwordInputId);
+        var type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+        input.setAttribute('type', type);
+
+        // Toggle the text of the button
+        input.nextElementSibling.textContent = type === 'password' ? 'Show' : 'Hide';
+    }
+
+    // New function to handle registration form submission
+    document.addEventListener('DOMContentLoaded', () => {
+        const registrationForm = document.getElementById('registration-form');
+        const registerButton = registrationForm.querySelector('button[type="submit"]');
+
+        registrationForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual form submission
+
+            // Simulate a registration process...
+            console.log("Registering user...");
+
+            // Clear input fields
+            registrationForm.reset();
+
+            // Change button text and color after registration
+            registerButton.textContent = 'Done';
+            registerButton.style.backgroundColor = '#28a745'; // Bootstrap's success color for reference
+
+            // Optionally, disable the button to prevent repeated submissions
+            registerButton.disabled = true;
+
+            // Restore button after some delay if needed
+             setTimeout(() => {
+                 registerButton.textContent = 'Register';
+                 registerButton.style.backgroundColor = '#2d7ffa';
+                 registerButton.disabled = false;
+             }, 2000);
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+:root {
+    --primary-color: #333; /* Dark color for the background */
+    --highlight-color: #2d7ffa; /* Color for hover effects and highlights */
+    --text-color: #fff; /* Light color for text for contrast against the dark background */
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: var(--primary-color); /* Ensure this is applied to the navbar */
+}
+
+#navbar-container, #navbar {
+    background-color: var(--primary-color); /* Ensure the navbar itself has the dark background */
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    padding: 0 15px;
+}
+
+.nav-links a {
+    color: var(--text-color); /* Ensure text is light for readability */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-links a:hover {
+    color: var(--highlight-color);
+}
+
+.logo img {
+    height: 50px;
+}
+
+.site-title{
+    margin-left: 1rem;
+    color: white;
+    font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
