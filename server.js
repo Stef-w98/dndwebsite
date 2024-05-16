@@ -11,7 +11,18 @@ app.get('/api/data', (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const PORT = 80; // Use port 80 for public access
+const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+// Handle shutdown signals
+const shutdown = () => {
+    server.close(() => {
+        console.log('Server is shutting down...');
+        process.exit(0);
+    });
+};
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
