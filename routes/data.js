@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Endpoint to fetch test data
+// Example endpoint for fetching data
 router.get('/data', (req, res) => {
     res.json({ message: 'Hello, world!' });
 });

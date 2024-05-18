@@ -1,33 +1,31 @@
 :root {
     --background-color: #121212;
     --text-color: #fff;
-    --accent-color: #2d7ffa; /* Consider a more vibrant shade if needed */
-    --card-background-color: #262626; /* Darker card background for contrast */
+    --accent-color: #2d7ffa;
+    --card-background-color: #262626;
     --section-padding: 50px 20px;
-    --container-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5); /* More pronounced shadow for depth */
+    --container-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
     --transition-speed: 0.3s;
-    --card-border-radius: 8px; /* Rounded corners for cards */
+    --card-border-radius: 8px;
 }
 
 /* Custom scrollbar styles */
-/* Works for Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
-    width: 8px; /* Scrollbar width */
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #2c2c2c; /* Scrollbar track color */
+    background: #2c2c2c;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #444; /* Scrollbar handle color */
-    border-radius: 4px; /* Scrollbar handle border radius */
+    background: #444;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Scrollbar handle color on hover */
+    background: #555;
 }
-
 
 body, html {
     margin: 0;
@@ -35,22 +33,21 @@ body, html {
     font-family: Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
-    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+    scroll-behavior: smooth;
 }
 
 /* Global link styles */
 a {
     color: var(--accent-color);
-    text-decoration: none; /* Added underline to make links more noticeable */
+    text-decoration: none;
     transition: color var(--transition-speed);
 }
 
 a:hover {
     color: #ffffff;
-    text-decoration: none; /* Removing underline on hover for a clean transition */
 }
 
-/* Hero Section Text Enhancement */
+/* Hero Section */
 .hero {
     position: relative;
     overflow: hidden;
@@ -65,7 +62,7 @@ a:hover {
     to { opacity: 1; }
 }
 
-.backgroundimg{
+.backgroundimg {
     width: 100%;
     z-index: 1;
 }
@@ -73,14 +70,12 @@ a:hover {
 .hero-content {
     position: relative;
     z-index: 2;
-    top: -80%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 90%;
     color: white;
     font-family: "MedievalSharp", cursive;
-    font-weight: 400;
-    font-style: normal;
 }
 
 .hero-content img {
@@ -90,12 +85,12 @@ a:hover {
 }
 
 .hero-content h1 {
-    font-size: 3em; /* Increased initial size for impact */
+    font-size: 3em;
     margin-bottom: 0.5em;
 }
 
 .hero-content p {
-    font-size: 1.5em; /* Slightly larger paragraph font size for readability */
+    font-size: 1.5em;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -105,13 +100,13 @@ a:hover {
     to { transform: scale(1); }
 }
 
-/* Enhanced Card Design */
+/* Card Design */
 .features, .about {
     padding: var(--section-padding);
     text-align: center;
     background-color: var(--card-background-color);
     box-shadow: var(--container-shadow);
-    margin: 20px auto; /* Centering cards */
+    margin: 20px auto;
     border-radius: var(--card-border-radius);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
@@ -128,7 +123,7 @@ a:hover {
 }
 
 .feature-item:hover {
-    background-color: #1e1e1e; /* Slightly lighter on hover for interactivity */
+    background-color: #1e1e1e;
 }
 
 h2, h3 {

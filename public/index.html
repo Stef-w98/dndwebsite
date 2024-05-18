@@ -4,39 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dungeons and Muffins</title>
-    <link rel="icon" href="dmicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="dmicon.png" type="image/x-icon">
+    <link rel="icon" href="assets/images/dmicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/images/dmicon.png" type="image/x-icon">
     <link rel="stylesheet" href="lib/home/homeStyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="lib/components/navbarStyle.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+    <script defer type="module" src="lib/components/navbarLoader.js"></script>
 </head>
 <body>
-<header id="navbar-container">
-    <nav id="navbar">
-        <div class="logo">
-            <img src="dmtransparant.png" alt="Dungeons and Muffins Logo">
-            <h2 class="site-title">Dungeons & Muffins test</h2>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="./lib/map/map.html">Map</a></li>
-            <li><a href="./lib/party/party.html">Party</a></li>
-            <li><a href="./lib/npc/npc.html">NPC</a></li>
-            <!-- Authentication Links -->
-            <li id="login-register-link" style="display: none;"><a href="./lib/registration/signin.html">Login/Register</a></li>
-            <li id="logout-link" style="display: none;"><a href="#">Logout</a></li>
-        </ul>
-    </nav>
-</header>
+<header id="navbar-container"></header>
 
 <!-- Hero Section -->
 <section class="hero">
-    <img class="backgroundimg" src="dmbackground.jpg" alt="background">
+    <img class="backgroundimg" src="assets/images/dmbackground.jpg" alt="background">
     <div class="hero-content">
-        <img src="dmtransparant.png" alt="logo">
+        <img src="assets/images/dmtransparant.png" alt="logo">
     </div>
 </section>
 
@@ -59,10 +43,7 @@
     </div>
 </section>
 
-
-
 <script defer>
-
     document.addEventListener('scroll', () => {
         const scrollPosition = window.scrollY;
         const heroContent = document.querySelector('.hero-content');
@@ -71,8 +52,6 @@
 
         heroContent.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
     });
-
 </script>
-<script defer type="module" src="lib/components/navbarLoader.js"></script>
 </body>
 </html>

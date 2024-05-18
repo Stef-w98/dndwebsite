@@ -1,3 +1,28 @@
+document.getElementById('login-form').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent the form from submitting in the traditional manner
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    // Send login request to server
+    const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        console.log('User logged in:', data.user);
+        // Redirect the user or update UI as needed
+        window.location.href = './../../index.html'; // Adjust as necessary
+    } else {
+        console.error('Login error:', data.error);
+        // Handle error (e.g., display a message to the user)
+    }
+});
+
 document.getElementById('registration-form').addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent the form from submitting in the traditional manner
     const email = document.getElementById('register-email').value;

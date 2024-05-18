@@ -1,64 +1,45 @@
-import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
+document.addEventListener("DOMContentLoaded", async function() {
+    // Fetch the navbar HTML and insert it into the navbar container
+    const response = await fetch('/lib/components/navbar.html');
+    if (response.ok) {
+        const data = await response.text();
+        document.getElementById('navbar-container').innerHTML = data;
 
-// Initialize Supabase client
-let supabase = createClient('https://nhgspooltizwismypzan.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5oZ3Nwb29sdGl6d2lzbXlwemFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA2MTI2MDQsImV4cCI6MjAyNjE4ODYwNH0.7uPvzyXlBh6EUShss-I2KkuAAPdyeMauKXdKwGl6YnA');
-
-document.addEventListener('DOMContentLoaded', function () {
-    const navbarCSSKey = 'navbarCSS';
-    let navbarCSS = localStorage.getItem(navbarCSSKey);
-
-    if (!navbarCSS) {
-        fetch('../components/navbarStyle.css')
-            .then(response => response.text())
-            .then(css => {
-                localStorage.setItem(navbarCSSKey, css);
-                applyCSS(css);
-            });
+        // Check login status and update navbar
+        await checkLoginStatus();
     } else {
-        applyCSS(navbarCSS);
+        console.error('Failed to load navbar.');
     }
-
-    function applyCSS(css) {
-        const style = document.createElement('style');
-        style.innerHTML = css;
-        document.head.appendChild(style);
-    }
-
-    adjustAuthLinks(); // Adjust authentication-related links on load
-    setupLogoutListener(); // Setup listener for logout action
 });
 
+async function checkLoginStatus() {
+    const response = await fetch('/api/check-session');
+    if (response.ok) {
+        const data = await response.json();
+        console.log('Session data:', data); // Log the session data
 
-async function adjustAuthLinks() {
-    // Check the current authentication session
-    const { data, error } = await supabase.auth.getSession();
-
-    // Show or hide authentication links based on session status
-    if (data?.session) {
-        document.getElementById('login-register-link').style.display = 'none';
-        document.getElementById('logout-link').style.display = 'block';
-    } else {
-        document.getElementById('login-register-link').style.display = 'block';
-        document.getElementById('logout-link').style.display = 'none';
-    }
-}
-
-function setupLogoutListener() {
-    // Listener for logout clicks
-    document.addEventListener('click', async (e) => {
-        if (e.target.id === 'logout-link' || e.target.closest('#logout-link')) {
-            e.preventDefault(); // Prevent default action
-            console.log("Logout clicked");
-
-            // Attempt to log out
-            const { error } = await supabase.auth.signOut();
-
-            if (!error) {
-                console.log("Logout successful");
-                adjustAuthLinks(); // Update the UI based on auth state
-            } else {
-                console.error('Logout error:', error);
-            }
+        if (data.loggedIn) {
+            document.getElementById('login-register-link').style.display = 'none';
+            document.getElementById('logout-link').style.display = 'block';
+            console.log('User is logged in, showing logout link.'); // Log if user is logged in
+        } else {
+            document.getElementById('login-register-link').style.display = 'block';
+            document.getElementById('logout-link').style.display = 'none';
+            console.log('User is not logged in, showing login/register link.'); // Log if user is not logged in
         }
-    });
+
+        document.getElementById('logout-link').addEventListener('click', async () => {
+            const logoutResponse = await fetch('/api/logout', {
+                method: 'POST'
+            });
+            if (logoutResponse.ok) {
+                window.location.href = '/';
+                console.log('User logged out successfully.'); // Log successful logout
+            } else {
+                console.error('Failed to log out.');
+            }
+        });
+    } else {
+        console.error('Failed to check login status.');
+    }
 }
