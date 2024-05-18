@@ -22,10 +22,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Import routes
 const authRoutes = require('./routes/auth');
 const dataRoutes = require('./routes/data');
+const mapRoutes = require('./routes/map');
 
 // Use routes
 app.use('/api', authRoutes);
 app.use('/api', dataRoutes);
+app.use('/api', mapRoutes);
 
 console.log('Routes setup complete');
 

@@ -1,5 +1,5 @@
 // app.js
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../../lib/map/supabaseClient.js';
 import { openSidebar, closeSidebar } from './uiHelpers.js';
 import { fetchAndDisplayCities, addCity } from './cityManagement.js';
 import { setupDrawingTools, fetchAndDisplayRegions } from './regionManagement.js';

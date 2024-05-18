@@ -1,5 +1,5 @@
 // cityManagement.js
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../../lib/map/supabaseClient.js';
 import { openSidebar } from './uiHelpers.js';
 
 export async function fetchAndDisplayCities(citiesLayerGroup, map) {

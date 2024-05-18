@@ -1,5 +1,5 @@
 // regionManagement.js
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../../lib/map/supabaseClient.js';
 
 let isDrawing = false;
 let polygonPoints = [];

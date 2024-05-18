@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../../lib/map/supabaseClient.js';
 import { openSidebar } from './uiHelpers.js';
 
 export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map) {
