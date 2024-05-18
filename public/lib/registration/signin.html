@@ -48,7 +48,7 @@
             display: grid;
             gap: 15px;
         }
-        input[type="email"] {
+        input[type="email"], input[type="password"] {
             padding: 15px;
             border-radius: 8px;
             border: none;
@@ -56,178 +56,59 @@
             color: white;
             font-size: 16px;
         }
-
-        input[type="password"] {
-            padding: 15px;
-            border-radius: 8px;
-            border: none;
-            background-color: #555;
-            color: white;
-            font-size: 16px;
-        }
-
         button {
             padding: 15px;
-            background-color: #2d7ffa;
-            color: white;
+            border-radius: 8px;
             border: none;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
             cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-            font-size: 16px;
-            font-weight: 500;
         }
-        button:hover {
-            background-color: #143772;
+        button:disabled {
+            background-color: #666;
         }
-
-        .mt-20 { margin-top: 20px; }
-
-        .input-container {
-            position: relative;
-            background-color: #555;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .input-container input[type="text"] {
-            flex-grow: 1;
-            padding: 15px;
-            padding-right: 80px; /* Make room for the button */
-            border-radius: 8px;
-            border: none;
-            background-color: #555;
-            color: white;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .input-container input[type="password"] {
-            flex-grow: 1;
-            padding: 15px;
-            padding-right: 80px; /* Make room for the button */
-            border-radius: 8px;
-            border: none;
-            background-color: #555;
-            color: white;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .show-password {
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%; /* Ensures button fills the container height */
-            border: none;
-            background: none; /* Background is transparent by default */
-            color: #bbb;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 0 15px; /* Adjust padding as needed */
-            border-radius: 0 8px 8px 0; /* Rounded corners on the right side */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .show-password:focus, .show-password:hover {
-            color: #fff;
-            background-color: #444; /* Darker background on hover/focus */
-            text-decoration: none;
-            outline: none; /* Removes the outline to keep the UI clean */
-        }
-
     </style>
-    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
 </head>
 <body>
-<header id="navbar-container">
-    <nav id="navbar">
-        <div class="logo">
-            <img src="../../dmtransparant.png" alt="Dungeons and Muffins Logo">
-            <h2 class="site-title">Dungeons & Muffins</h2>
-        </div>
-        <ul class="nav-links">
-            <li><a href="../../index.html">Home</a></li>
-            <li><a href="../map/map.html">Map</a></li>
-            <li><a href="../party/party.html">Party</a></li>
-            <li><a href="../npc/npc.html">NPC</a></li>
-            <!-- Authentication Links -->
-            <li id="login-register-link" style="display: none;"><a href="#">Login/Register</a></li>
-            <li id="logout-link" style="display: none;"><a href="../../index.html">Logout</a></li>
-        </ul>
-    </nav>
+<header>
+    <!-- Add your navigation bar here -->
 </header>
 <div class="content">
     <div class="form-box">
         <h2>Login</h2>
         <form id="login-form">
             <input type="email" id="login-email" placeholder="Email" required>
-            <div class="input-container">
-                <input type="password" id="login-password" placeholder="Password" required>
-                <button type="button" class="show-password" onclick="togglePasswordVisibility('login-password')">Show</button>
-            </div>
+            <input type="password" id="login-password" placeholder="Password" required>
             <button type="submit">Login</button>
-        </form>
-
-        <div class="mt-20"></div> <!-- Spacer -->
-
-        <h2>Register</h2>
-        <form id="registration-form">
-            <input type="email" id="register-email" placeholder="Email" required>
-            <div class="input-container">
-                <input type="password" id="register-password" placeholder="Password" required>
-                <button type="button" class="show-password" onclick="togglePasswordVisibility('register-password')">Show</button>
-            </div>
-            <button type="submit">Register</button>
         </form>
     </div>
 </div>
-<script defer type="module" src="register.js"></script>
-<script defer>
-    // Existing function to toggle password visibility
-    function togglePasswordVisibility(passwordInputId) {
-        var input = document.getElementById(passwordInputId);
-        var type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-        input.setAttribute('type', type);
+<script>
+    document.getElementById('login-form').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent the form from submitting in the traditional manner
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
 
-        // Toggle the text of the button
-        input.nextElementSibling.textContent = type === 'password' ? 'Show' : 'Hide';
-    }
-
-    // New function to handle registration form submission
-    document.addEventListener('DOMContentLoaded', () => {
-        const registrationForm = document.getElementById('registration-form');
-        const registerButton = registrationForm.querySelector('button[type="submit"]');
-
-        registrationForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent actual form submission
-
-            // Simulate a registration process...
-            console.log("Registering user...");
-
-            // Clear input fields
-            registrationForm.reset();
-
-            // Change button text and color after registration
-            registerButton.textContent = 'Done';
-            registerButton.style.backgroundColor = '#28a745'; // Bootstrap's success color for reference
-
-            // Optionally, disable the button to prevent repeated submissions
-            registerButton.disabled = true;
-
-            // Restore button after some delay if needed
-             setTimeout(() => {
-                 registerButton.textContent = 'Register';
-                 registerButton.style.backgroundColor = '#2d7ffa';
-                 registerButton.disabled = false;
-             }, 2000);
+        // Send login request to server
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
         });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log('User logged in:', data.user);
+            // Redirect the user or update UI as needed
+            window.location.href = './../../index.html'; // Adjust as necessary
+        } else {
+            console.error('Login error:', data.error);
+            // Handle error (e.g., display a message to the user)
+        }
     });
 </script>
-
 </body>
 </html>

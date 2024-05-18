@@ -1,14 +1,22 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const app = express();
+
+// Middleware to parse JSON requests
+app.use(bodyParser.json());
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Endpoint to fetch test data
-app.get('/api/data', (req, res) => {
-    res.json({ message: 'Hello, world!' });
-});
+// Import routes
+const authRoutes = require('./routes/auth');
+const dataRoutes = require('./routes/data');
+
+// Use routes
+app.use('/api', authRoutes);
+app.use('/api', dataRoutes);
 
 // Start the server
 const PORT = 80; // Use port 80 for public access
