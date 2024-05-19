@@ -19,8 +19,9 @@ app.use(session({
 
 // Use cache control
 app.use(cacheControl({
-    maxAge: 3600,
-    public: true
+    noCache: true, // Disable caching
+    private: false,
+    mustRevalidate: true
 }));
 
 // Serve static files from the "public" directory
@@ -54,4 +55,3 @@ const shutdown = () => {
 
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
-

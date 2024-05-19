@@ -29,10 +29,29 @@ window.addEventListener('load', async () => {
     setupDrawingTools(map);
     document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
     document.getElementById('addCityForm').addEventListener('submit', handleCityFormSubmit);
+
+    // Handle map click to show city form modal
+    map.on('click', function(e) {
+        window.clickedLocation = e.latlng;
+        document.getElementById('cityFormModal').style.display = 'block';
+    });
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('cityFormModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    // Close modal when clicking the close button
+    document.querySelector('.close').onclick = function() {
+        document.getElementById('cityFormModal').style.display = 'none';
+    };
 });
 
 async function fetchMapData() {
-    const response = await fetch('/api/map-data');
+    const response = await fetch(`/api/map-data?ts=${Date.now()}`);
     if (response.ok) {
         return await response.json();
     } else {

@@ -5,7 +5,12 @@ const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 // Fetch all map data
-router.get('/map-data', async (req, res) => {
+router.get('/map-data', (req, res) => {
+    res.set('Cache-Control', 'no-store'); // Disable caching for this endpoint
+    fetchMapData(req, res);
+});
+
+async function fetchMapData(req, res) {
     try {
         const { data: cities, error: citiesError } = await supabase.from('cities').select('*');
         if (citiesError) throw citiesError;
@@ -23,7 +28,7 @@ router.get('/map-data', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
+}
 
 // Add a city
 router.post('/addCity', async (req, res) => {
@@ -33,7 +38,7 @@ router.post('/addCity', async (req, res) => {
 
         if (error) throw error;
 
-        res.status(200).json({ message: 'City added successfully!' });
+        res.status(200).json(cityData);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
