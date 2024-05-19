@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const cacheControl = require('express-cache-controller');
 const app = express();
 
 // Middleware to parse JSON requests
@@ -16,16 +17,24 @@ app.use(session({
     cookie: { secure: false } // Use true if using HTTPS
 }));
 
+// Use cache control
+app.use(cacheControl({
+    maxAge: 3600,
+    public: true
+}));
+
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Import routes
 const authRoutes = require('./routes/auth');
 const dataRoutes = require('./routes/data');
+const mapRoutes = require('./routes/map');
 
 // Use routes
 app.use('/api', authRoutes);
 app.use('/api', dataRoutes);
+app.use('/api', mapRoutes);
 
 console.log('Routes setup complete');
 
@@ -45,3 +54,4 @@ const shutdown = () => {
 
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
+

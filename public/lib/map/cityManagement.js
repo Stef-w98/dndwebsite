@@ -1,15 +1,6 @@
-// cityManagement.js
-import { supabase } from './supabaseClient.js';
 import { openSidebar } from './uiHelpers.js';
 
-export async function fetchAndDisplayCities(citiesLayerGroup, map) {
-    let { data: cities, error } = await supabase.from('cities').select('*');
-
-    if (error) {
-        console.error('Error loading cities:', error.message);
-        return;
-    }
-
+export async function fetchAndDisplayCities(citiesLayerGroup, map, cities) {
     citiesLayerGroup.clearLayers(); // Clear existing city markers before adding new ones
 
     cities.forEach(city => {
@@ -28,11 +19,10 @@ export async function fetchAndDisplayCities(citiesLayerGroup, map) {
             openSidebar(content); // Assuming openSidebar function is defined in uiHelpers.js and correctly imports here
         });
     });
-    L.marker([city.latitude, city.longitude]).addTo(citiesLayerGroup);
     citiesLayerGroup.addTo(map);
 }
 
-export async function addCity(cityData, map) {
+export async function addCity(cityData) {
     // Assuming /api/addCity endpoint is correctly set up to receive POST requests and add cities
     const response = await fetch('/api/addCity', {
         method: 'POST',
@@ -42,13 +32,9 @@ export async function addCity(cityData, map) {
 
     if (response.ok) {
         const newCity = await response.json();
-        const marker = L.marker([newCity.latitude, newCity.longitude]).addTo(map);
-        marker.bindTooltip(newCity.name, { permanent: false, direction: 'top', opacity: 0.7, offset: [-15, 0] });
-        marker.on('click', () => {
-            const content = `<h2>${newCity.name}</h2>`;
-            openSidebar(content);
-        });
+        return newCity;
     } else {
-        alert('Failed to add city');
+        const errorData = await response.json();
+        throw new Error(errorData.error);
     }
 }
