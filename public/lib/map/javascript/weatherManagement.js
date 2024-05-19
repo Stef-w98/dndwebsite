@@ -66,13 +66,13 @@ function displayWeatherMarker(marker, condition, weatherLayerGroup) {
 
 function determineIconUrl(weatherCondition) {
     const iconMap = {
-        'Sunny': './clear-day.svg',
-        'Cloudy': './cloudy.svg',
-        'Rain': './rain.svg',
-        'Thunderstorm': './thunder.svg',
-        'Fog': './fog.svg',
+        'Sunny': './assets/weather/clear-day.svg',
+        'Cloudy': './assets/weather/cloudy.svg',
+        'Rain': './assets/weather/rain.svg',
+        'Thunderstorm': './assets/weather/thunder.svg',
+        'Fog': './assets/weather/fog.svg',
         // Add other conditions as necessary
     };
 
-    return iconMap[weatherCondition] || './clear-day.svg';
+    return iconMap[weatherCondition] || './assets/weather/clear-day.svg';
 }

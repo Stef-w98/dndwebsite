@@ -9,19 +9,19 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- ------------------ -->
-    <link rel="stylesheet" href="scrollbar.css">
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="mapContainer.css">
-    <link rel="stylesheet" href="rightSidebar.css">
-    <link rel="stylesheet" href="modal.css">
-    <link rel="stylesheet" href="leftSidebar.css">
+    <link rel="stylesheet" href="styles/scrollbar.css">
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/mapContainer.css">
+    <link rel="stylesheet" href="styles/rightSidebar.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/leftSidebar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../components/navbarStyle.css">
-    <link rel="preload" href="./Dryle.png" as="image">
+    <link rel="preload" href="assets/general/Dryle.png" as="image">
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
-    <script defer type="module" src="app.js"></script>
+    <script defer type="module" src="javascript/app.js"></script>
     <script defer type="module" src="../components/navbarLoader.js"></script>
 </head>
 <body>
@@ -42,6 +42,8 @@
         <h2>Admin Tools</h2>
         <button id="addCityButton">Add City</button>
         <button id="drawPolygon">Add Region</button>
+        <h2>Regions</h2>
+        <div id="regionList"></div>
     </div>
 </div>
 <div id="sidebar" class="sidebar">

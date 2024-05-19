@@ -65,6 +65,18 @@
     margin-bottom: 10px; /* Add space between the labels */
 }
 
+#left-sidebar .left-sidebar-content #regionList a {
+    display: block; /* Make region links display as block elements */
+    margin-bottom: 10px; /* Add space between the region links */
+    color: #ECF0F1; /* Region link color */
+    text-decoration: none; /* Remove underline from links */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+#left-sidebar .left-sidebar-content #regionList a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
 @media (max-width: 768px) {
     .left-sidebar {
         width: 50px;

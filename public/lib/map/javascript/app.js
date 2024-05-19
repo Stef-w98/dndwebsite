@@ -5,7 +5,7 @@ import { fetchAndDisplayWeatherMarkers } from './weatherManagement.js';
 
 let map = L.map('fantasyMap', { crs: L.CRS.Simple, minZoom: 1, maxZoom: 4 });
 const bounds = [[0, 0], [562.5, 1000]];
-L.imageOverlay('./Dryle.png', bounds).addTo(map);
+L.imageOverlay('./assets/general/Dryle.png', bounds).addTo(map);
 map.fitBounds(bounds);
 
 let citiesLayerGroup = L.layerGroup().addTo(map);
