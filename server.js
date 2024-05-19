@@ -40,7 +40,7 @@ app.use('/api', mapRoutes);
 console.log('Routes setup complete');
 
 // Start the server
-const PORT = 80; // Use port 80 for public access
+const PORT = 3000; // Use port 3000 instead of 80
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
