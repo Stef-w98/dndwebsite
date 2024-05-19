@@ -19,7 +19,7 @@ app.use(session({
 
 // Use cache control
 app.use(cacheControl({
-    noCache: false,
+    noCache: true,
     private: false,
     mustRevalidate: true
 }));
