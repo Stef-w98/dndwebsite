@@ -1,6 +1,6 @@
 import { openSidebar, closeSidebar } from './uiHelpers.js';
 import { fetchAndDisplayCities, addCity } from './cityManagement.js';
-import { setupDrawingTools, fetchAndDisplayRegions } from './regionManagement.js';
+import { setupDrawingTools, fetchAndDisplayRegions, handleRegionClick } from './regionManagement.js';
 import { fetchAndDisplayWeatherMarkers } from './weatherManagement.js';
 
 let map = L.map('fantasyMap', { crs: L.CRS.Simple, minZoom: 1, maxZoom: 4 });
@@ -81,6 +81,8 @@ window.addEventListener('load', async () => {
     document.querySelector('.close').onclick = function() {
         document.getElementById('cityFormModal').style.display = 'none';
     };
+
+    populateRegionList(mapData.regions);
 });
 
 async function fetchMapData() {
@@ -166,4 +168,15 @@ function isValidLocation(lat, lng) {
     const maxLng = 1000;
     const minLng = 0;
     return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
+}
+
+function populateRegionList(regions) {
+    const regionList = document.getElementById('regionList');
+    regions.forEach(region => {
+        const regionItem = document.createElement('div');
+        regionItem.className = 'region-item';
+        regionItem.textContent = region.regionname;
+        regionItem.addEventListener('click', () => handleRegionClick(region.id));
+        regionList.appendChild(regionItem);
+    });
 }

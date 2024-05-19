@@ -14,7 +14,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Use true if using HTTPS
+    cookie: { secure: true }
 }));
 
 // Use cache control

@@ -171,3 +171,19 @@ function getRandomColor() {
     return color;
 }
 
+export function handleRegionClick(regionId) {
+    // Fetch and display the region details when a region is clicked
+    fetchRegionDetails(regionId).then(regionDetails => {
+        openSidebar(regionDetails);
+    });
+}
+
+async function fetchRegionDetails(regionId) {
+    const response = await fetch(`/api/region-details?id=${regionId}`);
+    if (response.ok) {
+        return await response.json();
+    } else {
+        console.error('Failed to load region details.');
+        return {};
+    }
+}
