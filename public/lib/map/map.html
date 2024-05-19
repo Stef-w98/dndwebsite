@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles/mapContainer.css">
     <link rel="stylesheet" href="styles/rightSidebar.css">
     <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/customDatePicker.css">
     <link rel="stylesheet" href="styles/leftSidebar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +24,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
     <script defer type="module" src="javascript/app.js"></script>
     <script defer type="module" src="../components/navbarLoader.js"></script>
+    <script defer type="module" src="./javascript/customDatePicker.js"></script>
 </head>
 <body>
 <header id="navbar-container"></header>
@@ -39,6 +41,26 @@
         <label>
             <input type="checkbox" id="toggle-weather" checked> Weather
         </label>
+        <h2>Date Picker</h2>
+        <div id="customDatePicker">
+            <label for="dateInput">Select a date:</label>
+            <input type="text" id="dateInput" readonly>
+            <div id="datePickerPopup" class="date-picker-popup">
+                <div id="calendarNavigation">
+                    <button id="prevYear">&laquo;</button>
+                    <button id="prevMonth">&lt;</button>
+                    <span id="calendarHeader"></span>
+                    <button id="nextMonth">&gt;</button>
+                    <button id="nextYear">&raquo;</button>
+                </div>
+                <table>
+                    <thead>
+                    <tr id="weekdaysHeader"></tr>
+                    </thead>
+                    <tbody id="calendarBody"></tbody>
+                </table>
+            </div>
+        </div>
         <h2>Admin Tools</h2>
         <button id="addCityButton">Add City</button>
         <button id="drawPolygon">Add Region</button>

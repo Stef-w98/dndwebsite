@@ -1,5 +1,5 @@
-// regionManagement.js
 import { supabase } from './supabaseClient.js';
+import { openSidebarWithRegionInfo } from './uiHelpers.js'; // Ensure this import
 
 let isDrawing = false;
 let polygonPoints = [];
@@ -9,7 +9,6 @@ let map = null; // This will be set when initializing drawing tools
 export async function setupDrawingTools(leafletMap) {
     map = leafletMap; // Store the reference to the map
 
-    // Assuming you have a button with id="drawPolygon" in your HTML
     const drawButton = document.getElementById('drawPolygon');
     drawButton.addEventListener('click', toggleDrawing);
 
@@ -45,14 +44,12 @@ async function completePolygon() {
     }
 
     try {
-        // Insert the new region
         const { error: insertError } = await supabase
             .from('regions')
             .insert({ regionname: regionName, regioninfo: regionInfo });
 
         if (insertError) throw insertError;
 
-        // Fetch the latest region entry based on created_on
         const { data: latestRegion, error: fetchError } = await supabase
             .from('regions')
             .select('*')
@@ -64,7 +61,6 @@ async function completePolygon() {
 
         const regionId = latestRegion.id;
 
-        // Insert coordinates for the latest region
         for (const point of polygonPoints) {
             const { error: coordError } = await supabase
                 .from('coordinates')
@@ -124,13 +120,8 @@ export async function fetchAndDisplayRegions(regionsLayerGroup, map) {
                 .bindTooltip(`<strong>${region.regionname}</strong>`, { permanent: true, direction: 'center', className: 'region-label' })
                 .addTo(regionsLayerGroup);
 
-            // Inside your click handler in regionManagement.js
-            polygon.on('click', async () => {
-                const uiHelpersModule = await import('./uiHelpers.js');
-                uiHelpersModule.openSidebarWithRegionInfo(region);
-            });
+            polygon.on('click', () => handleRegionClick(region.id));
 
-            // Reintroduce hover effects
             polygon.on('mouseover', function() {
                 this.setStyle({
                     weight: 5,
@@ -153,37 +144,33 @@ export async function fetchAndDisplayRegions(regionsLayerGroup, map) {
 }
 
 function getRandomColor() {
-    // Generate RGB values
-    let r = Math.floor(Math.random() * 256); // Red component
-    let g = Math.floor(Math.random() * 256); // Green component
-    let b = Math.floor(Math.random() * 256); // Blue component
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
 
-    // If green is too high, reduce it to darken the color
     if (g > 180) {
-        g = g / 2; // Reduce the green component if it's too high
-        r = r + 50 < 255 ? r + 50 : 255; // Enhance red a bit to move away from green
-        b = b + 50 < 255 ? b + 50 : 255; // Enhance blue a bit to move away from green
+        g = g / 2;
+        r = r + 50 < 255 ? r + 50 : 255;
+        b = b + 50 < 255 ? b + 50 : 255;
     }
 
-    // Convert to hexadecimal
     let color = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 
     return color;
 }
 
-export function handleRegionClick(regionId) {
-    // Fetch and display the region details when a region is clicked
-    fetchRegionDetails(regionId).then(regionDetails => {
-        openSidebar(regionDetails);
-    });
-}
+export async function handleRegionClick(regionId) {
+    try {
+        const { data: regionDetails, error } = await supabase
+            .from('regions')
+            .select('regionname, regioninfo')
+            .eq('id', regionId)
+            .single();
 
-async function fetchRegionDetails(regionId) {
-    const response = await fetch(`/api/region-details?id=${regionId}`);
-    if (response.ok) {
-        return await response.json();
-    } else {
-        console.error('Failed to load region details.');
-        return {};
+        if (error) throw error;
+
+        openSidebarWithRegionInfo(regionDetails);
+    } catch (error) {
+        console.error('Error fetching region details:', error.message);
     }
 }

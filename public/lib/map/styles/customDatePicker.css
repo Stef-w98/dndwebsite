@@ -1,0 +1,75 @@
+/* Styles for custom date picker */
+#customDatePicker {
+    margin-top: 20px;
+}
+
+#customDatePicker label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#customDatePicker #dateInput {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #2C3E50; /* Dark background color */
+    color: #ECF0F1; /* Light text color */
+}
+
+.date-picker-popup {
+    display: none;
+    position: absolute;
+    z-index: 1001;
+    background-color: #2C3E50; /* Dark background color */
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    color: #ECF0F1; /* Light text color */
+}
+
+.date-picker-popup table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.date-picker-popup th, .date-picker-popup td {
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.date-picker-popup th {
+    background-color: #34495E; /* Slightly lighter background for headers */
+    color: #ECF0F1; /* Light text color */
+}
+
+.date-picker-popup td {
+    background-color: #2C3E50; /* Dark background color */
+    color: #ECF0F1; /* Light text color */
+}
+
+.date-picker-popup td:hover {
+    background-color: #384B61; /* Slightly lighter on hover */
+}
+
+#calendarNavigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#calendarNavigation button {
+    background-color: #2C3E50; /* Dark background color */
+    color: #ECF0F1; /* Light text color */
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+#calendarNavigation button:hover {
+    background-color: #384B61; /* Slightly lighter on hover */
+}

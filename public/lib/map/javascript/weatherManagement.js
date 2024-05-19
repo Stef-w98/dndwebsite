@@ -1,7 +1,13 @@
-import { supabase } from './supabaseClient.js';
-import { openSidebar } from './uiHelpers.js';
+function seedRandom(seed) {
+    let x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+}
 
-export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map) {
+function getSeededRandom(seed, min, max) {
+    return Math.floor(seedRandom(seed) * (max - min + 1)) + min;
+}
+
+export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed) {
     let { data: weatherMarkers, error } = await supabase.from('weathermarkers').select(`
         markerid,
         zoneid,
@@ -29,20 +35,21 @@ export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map) {
             continue; // Skip this marker if conditions cannot be loaded
         }
 
-        // Randomly select a weather condition for the marker
-        const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+        // Use the seed to consistently select a weather condition for the marker
+        const seededIndex = getSeededRandom(seed + marker.markerid, 0, conditions.length - 1);
+        const randomCondition = conditions[seededIndex];
 
         if (randomCondition) {
-            displayWeatherMarker(marker, randomCondition, weatherLayerGroup);
+            displayWeatherMarker(marker, randomCondition, weatherLayerGroup, seed);
         }
     }
 
     weatherLayerGroup.addTo(map);
 }
 
-function displayWeatherMarker(marker, condition, weatherLayerGroup) {
-    // Generate a random temperature between minTemp and maxTemp
-    const randomTemp = Math.floor(Math.random() * (condition.maxtemp - condition.mintemp + 1)) + condition.mintemp;
+function displayWeatherMarker(marker, condition, weatherLayerGroup, seed) {
+    // Generate a pseudo-random temperature using the seed
+    const randomTemp = getSeededRandom(seed + marker.markerid, condition.mintemp, condition.maxtemp);
 
     const weatherIcon = L.icon({
         iconUrl: determineIconUrl(condition.name),
@@ -58,21 +65,8 @@ function displayWeatherMarker(marker, condition, weatherLayerGroup) {
     weatherMarker.on('click', () => {
         let content = `<h2>Weather in ${marker.climatezones.name}</h2><p>${marker.locationdescription}</p>`;
         content += `<p><strong>Condition:</strong> ${condition.name}</p>`;
-        content += `<p><strong>Temperature:</strong> ${randomTemp}°C</p>`; // Display the randomly generated temperature
+        content += `<p><strong>Temperature:</strong> ${randomTemp}°C</p>`; // Display the pseudo-random temperature
         content += `<p><strong>Description:</strong> ${condition.description}</p>`;
         openSidebar(content);
     });
-}
-
-function determineIconUrl(weatherCondition) {
-    const iconMap = {
-        'Sunny': './assets/weather/clear-day.svg',
-        'Cloudy': './assets/weather/cloudy.svg',
-        'Rain': './assets/weather/rain.svg',
-        'Thunderstorm': './assets/weather/thunder.svg',
-        'Fog': './assets/weather/fog.svg',
-        // Add other conditions as necessary
-    };
-
-    return iconMap[weatherCondition] || './assets/weather/clear-day.svg';
 }

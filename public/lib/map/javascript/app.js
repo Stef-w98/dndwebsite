@@ -25,7 +25,11 @@ window.addEventListener('load', async () => {
     const mapData = await fetchMapData();
     fetchAndDisplayCities(citiesLayerGroup, map, mapData.cities);
     fetchAndDisplayRegions(regionsLayerGroup, map, mapData.regions, mapData.coordinates);
-    fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, mapData.weatherMarkers);
+
+    // Get the date from the date picker and use it as a seed
+    const dateInput = document.getElementById('dateInput');
+    const seed = new Date(dateInput.value).getTime();
+    fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed);
 
     setupDrawingTools(map);
     document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
@@ -83,6 +87,12 @@ window.addEventListener('load', async () => {
     };
 
     populateRegionList(mapData.regions);
+
+    // Re-fetch weather markers when the date changes
+    dateInput.addEventListener('change', () => {
+        const newSeed = new Date(dateInput.value).getTime();
+        fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, newSeed);
+    });
 });
 
 async function fetchMapData() {

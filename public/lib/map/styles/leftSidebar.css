@@ -1,19 +1,17 @@
 /* Styles for left sidebar */
 .left-sidebar {
-    height: calc(100% - 60px); /* Adjust height to fit under the navbar */
-    width: 60px; /* Initial width of the small visible part */
+    height: calc(100% - 60px);
+    width: 60px;
     position: fixed;
-    z-index: 1001; /* Ensure it's above the map */
-    top: 60px; /* Adjust to start under the navbar */
+    z-index: 1001;
     left: 0;
     background-color: #2C3E50;
-    overflow-x: hidden;
     transition: width 0.5s;
     color: #ECF0F1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align content at the top */
-    padding-top: 20px; /* Space at the top */
+    justify-content: flex-start;
+    padding-top: 20px;
 }
 
 .left-sidebar.open {
@@ -75,6 +73,26 @@
 
 #left-sidebar .left-sidebar-content #regionList a:hover {
     text-decoration: underline; /* Underline on hover */
+}
+
+/* Styles for region items in the left sidebar */
+.region-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    color: #ECF0F1; /* Text color */
+}
+
+.region-item::before {
+    content: "•"; /* Bullet point */
+    color: #ECF0F1; /* Same color as text */
+    font-size: 1.5rem; /* Adjust size as needed */
+    margin-right: 0.5rem; /* Space between bullet and text */
+}
+
+.region-item:hover {
+    color: #2671b2;
 }
 
 @media (max-width: 768px) {
