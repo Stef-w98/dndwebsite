@@ -20,6 +20,8 @@ let overlays = {
 
 L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 
+let addCityMode = false; // Variable to track whether add city mode is enabled
+
 window.addEventListener('load', async () => {
     const mapData = await fetchMapData();
     fetchAndDisplayCities(citiesLayerGroup, map, mapData.cities);
@@ -29,11 +31,17 @@ window.addEventListener('load', async () => {
     setupDrawingTools(map);
     document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
     document.getElementById('addCityForm').addEventListener('submit', handleCityFormSubmit);
+    document.getElementById('addCityButton').addEventListener('click', toggleAddCityMode);
 
-    // Handle map click to show city form modal
+    // Handle map click to show city form modal or display region info
     map.on('click', function(e) {
-        window.clickedLocation = e.latlng;
-        document.getElementById('cityFormModal').style.display = 'block';
+        if (addCityMode) {
+            window.clickedLocation = e.latlng;
+            document.getElementById('cityFormModal').style.display = 'block';
+        } else {
+            // Add logic here to handle clicking on existing regions
+            // For example, you can check if a region polygon is clicked and show the sidebar with region info
+        }
     });
 
     // Close modal when clicking outside of it
@@ -87,11 +95,21 @@ async function handleCityFormSubmit(e) {
             fetchAndDisplayCities(citiesLayerGroup, map, mapData.cities);
             document.getElementById('cityFormModal').style.display = 'none';
             e.target.reset();
+            toggleAddCityMode(); // Disable add city mode after adding a city
         } catch (error) {
             alert(`Failed to add city: ${error.message}`);
         }
     } else {
         document.getElementById('cityFormModal').style.display = 'none';
+    }
+}
+
+function toggleAddCityMode() {
+    addCityMode = !addCityMode;
+    const addCityButton = document.getElementById('addCityButton');
+    addCityButton.textContent = addCityMode ? 'Cancel Add City' : 'Add City';
+    if (addCityMode) {
+        alert('Click on the map to add a city.');
     }
 }
 
