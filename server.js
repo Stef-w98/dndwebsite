@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const cacheControl = require('express-cache-controller');
 const app = express();
 
 // Middleware to parse JSON requests
@@ -14,6 +15,13 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Use true if using HTTPS
+}));
+
+// Use cache control
+app.use(cacheControl({
+    noCache: true, // Disable caching
+    private: false,
+    mustRevalidate: true
 }));
 
 // Serve static files from the "public" directory

@@ -1,0 +1,96 @@
+/* Right Sidebar Styling */
+.sidebar {
+    height: 100%;
+    width: 0; /* Initially set to 0 to hide the sidebar */
+    position: fixed;
+    z-index: 1001; /* Ensure it's above the map */
+    top: 0;
+    right: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s; /* Smooth transition */
+    padding-top: 60px; /* Space for the header */
+}
+
+.sidebar h2 {
+    padding: 10px 15px;
+}
+
+.sidebarContent {
+    padding: 15px;
+}
+
+.sidebar {
+    position: fixed;
+    right: -300px;
+    top: 50px;
+    width: 300px;
+    height: calc(100% - 50px);
+    background-color: #2C3E50;
+    color: #ECF0F1;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1001;
+    padding-top: 0;
+}
+
+.sidebar.open {
+    right: 0;
+}
+
+.map-container {
+    transition: margin-right 0.3s ease;
+}
+
+.map-container.expanded {
+    margin-right: 300px;
+}
+
+#sidebar-content {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+    margin-bottom: 40px;
+}
+
+.sidebar-footer {
+    padding: 16px;
+    background: #34495E;
+    text-align: center;
+    margin-bottom: 0.1rem;
+}
+
+#close-sidebar {
+    background-color: #E74C3C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    border-top: 1px solid #C0392B;
+}
+
+#close-sidebar:hover {
+    background-color: #C0392B;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        box-shadow: none;
+    }
+
+    .map-container.expanded {
+        margin-right: 0;
+    }
+
+    .sidebar.open {
+        bottom: 0;
+        right: 0;
+    }
+}
