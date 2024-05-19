@@ -1,41 +1,14 @@
-/* Custom scrollbar styles */
-/* Works for Chrome, Edge, and Safari */
-::-webkit-scrollbar {
-    width: 8px; /* Scrollbar width */
-}
-
-::-webkit-scrollbar-track {
-    background: #2c2c2c; /* Scrollbar track color */
-}
-
-::-webkit-scrollbar-thumb {
-    background: #444; /* Scrollbar handle color */
-    border-radius: 4px; /* Scrollbar handle border radius */
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Scrollbar handle color on hover */
-}
-
-/* Reset the margin and padding */
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: #2c2c2c;
-}
-
-/* Make the map container fill the entire screen */
 #fantasyMap {
-    width: 100vw; /* 100% of the viewport width */
-    height: 93vh; /* 100% of the viewport height */
-    position: absolute; /* Position it in a way that it always fills the screen */
+    width: 96vw;
+    height: 93vh;
+    position: absolute;
+    margin-left: 60px;
     background-color: #2c2c2c;
 }
 
 .sidebar {
     height: 100%;
-    width: 0; /* Initially set to 0 to hide the sidebar */
+    width: 0;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -192,36 +165,57 @@ body, html {
     opacity: 0.8;
 }
 
-#drawPolygon, #addCityButton {
-    position: fixed; /* Fixed position to make it float */
-    top: 20px; /* Distance from the top */
-    z-index: 1001; /* Ensure it's above the map */
-    background-color: #2d7ffa;
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    padding: 10px 20px; /* Padding for better size */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Text size */
-}
-
-#drawPolygon {
-    right: 20px; /* Distance from the right for drawPolygon */
-}
-
-#addCityButton {
-    right: 140px; /* Distance from the right for addCityButton, adjust as needed */
-}
-
-#drawPolygon:hover, #addCityButton:hover {
-    background-color: rgba(122, 58, 204, 0.5); /* Slightly darker on hover */
-}
-
-.region-label {
+#region-label {
     background-color: transparent;
     border: none;
     box-shadow: none;
     font-size: 16px; /* Adjust size as needed */
     color: #fff; /* Text color */
     font-weight: bold;
+}
+
+/* Styles for left sidebar */
+.left-sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #2C3E50;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    color: #ECF0F1;
+}
+
+.left-sidebar.open {
+    width: 300px;
+}
+
+.left-sidebar .left-sidebar-content {
+    padding: 20px;
+}
+
+#toggle-left-sidebar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background-color: #2d7ffa;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#toggle-left-sidebar:hover {
+    background-color: rgba(122, 58, 204, 0.5);
+}
+
+#left-sidebar .left-sidebar-content button {
+    width: 100%; /* Make buttons take full width of the sidebar */
+    margin-top: 10px; /* Add some space between buttons */
 }

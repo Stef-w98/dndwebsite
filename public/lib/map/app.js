@@ -18,9 +18,8 @@ let overlays = {
     "Weather": weatherLayerGroup
 };
 
-L.control.layers(null, overlays, { collapsed: false }).addTo(map);
-
-let addCityMode = false; // Variable to track whether add city mode is enabled
+let addCityMode = false;
+let drawPolygonMode = false;
 
 window.addEventListener('load', async () => {
     const mapData = await fetchMapData();
@@ -31,20 +30,47 @@ window.addEventListener('load', async () => {
     setupDrawingTools(map);
     document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
     document.getElementById('addCityForm').addEventListener('submit', handleCityFormSubmit);
-    document.getElementById('addCityButton').addEventListener('click', toggleAddCityMode);
+    document.getElementById('addCityButton').addEventListener('click', () => toggleAddCityMode());
+    document.getElementById('drawPolygon').addEventListener('click', () => toggleDrawPolygonMode());
+    document.querySelector('.hamburger-icon').addEventListener('click', toggleLeftSidebar);
 
-    // Handle map click to show city form modal or display region info
-    map.on('click', function(e) {
-        if (addCityMode) {
-            window.clickedLocation = e.latlng;
-            document.getElementById('cityFormModal').style.display = 'block';
+    document.getElementById('toggle-cities').addEventListener('change', function() {
+        if (this.checked) {
+            citiesLayerGroup.addTo(map);
         } else {
-            // Add logic here to handle clicking on existing regions
-            // For example, you can check if a region polygon is clicked and show the sidebar with region info
+            citiesLayerGroup.remove();
         }
     });
 
-    // Close modal when clicking outside of it
+    document.getElementById('toggle-regions').addEventListener('change', function() {
+        if (this.checked) {
+            regionsLayerGroup.addTo(map);
+        } else {
+            regionsLayerGroup.remove();
+        }
+    });
+
+    document.getElementById('toggle-weather').addEventListener('change', function() {
+        if (this.checked) {
+            weatherLayerGroup.addTo(map);
+        } else {
+            weatherLayerGroup.remove();
+        }
+    });
+
+    map.on('click', function(e) {
+        console.log("Map clicked");
+        if (addCityMode) {
+            console.log("Add city mode enabled. Clicking on map should show form.");
+            window.clickedLocation = e.latlng;
+            document.getElementById('cityFormModal').style.display = 'block';
+        } else if (drawPolygonMode) {
+            // Add logic for drawing polygon here
+        } else {
+            // Handle clicking on existing regions to show sidebar with region info
+        }
+    });
+
     window.onclick = function(event) {
         const modal = document.getElementById('cityFormModal');
         if (event.target == modal) {
@@ -52,7 +78,6 @@ window.addEventListener('load', async () => {
         }
     };
 
-    // Close modal when clicking the close button
     document.querySelector('.close').onclick = function() {
         document.getElementById('cityFormModal').style.display = 'none';
     };
@@ -95,7 +120,7 @@ async function handleCityFormSubmit(e) {
             fetchAndDisplayCities(citiesLayerGroup, map, mapData.cities);
             document.getElementById('cityFormModal').style.display = 'none';
             e.target.reset();
-            toggleAddCityMode(); // Disable add city mode after adding a city
+            toggleAddCityMode(false);
         } catch (error) {
             alert(`Failed to add city: ${error.message}`);
         }
@@ -104,13 +129,35 @@ async function handleCityFormSubmit(e) {
     }
 }
 
-function toggleAddCityMode() {
-    addCityMode = !addCityMode;
+function toggleAddCityMode(forceDisable = false) {
+    addCityMode = forceDisable ? false : !addCityMode;
+    console.log("Toggle Add City Mode called. New value: " + addCityMode);
     const addCityButton = document.getElementById('addCityButton');
+    const drawPolygonButton = document.getElementById('drawPolygon');
     addCityButton.textContent = addCityMode ? 'Cancel Add City' : 'Add City';
+    drawPolygonButton.disabled = addCityMode;
     if (addCityMode) {
         alert('Click on the map to add a city.');
     }
+}
+
+function toggleDrawPolygonMode() {
+    drawPolygonMode = !drawPolygonMode;
+    console.log("Toggle Draw Polygon Mode called. New value: " + drawPolygonMode);
+    const drawPolygonButton = document.getElementById('drawPolygon');
+    const addCityButton = document.getElementById('addCityButton');
+    drawPolygonButton.textContent = drawPolygonMode ? 'Stop Drawing' : 'Add Region';
+    addCityButton.disabled = drawPolygonMode;
+    if (drawPolygonMode) {
+        alert('Click on the map to start drawing a region.');
+    }
+}
+
+function toggleLeftSidebar() {
+    const leftSidebar = document.getElementById('left-sidebar');
+    leftSidebar.classList.toggle('open');
+    const hamburgerIcon = document.querySelector('.hamburger-icon');
+    hamburgerIcon.style.left = leftSidebar.classList.contains('open') ? '250px' : '10px';
 }
 
 function isValidLocation(lat, lng) {

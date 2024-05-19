@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- ------------------ -->
-    <link rel="stylesheet" href="mapStyle.css">
+    <link rel="stylesheet" href="scrollbar.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="mapContainer.css">
+    <link rel="stylesheet" href="rightSidebar.css">
+    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="leftSidebar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
@@ -17,25 +22,28 @@
     <link rel="preload" href="./Dryle.png" as="image">
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
     <script defer type="module" src="app.js"></script>
+    <script defer type="module" src="../components/navbarLoader.js"></script>
 </head>
 <body>
-<header id="navbar-container">
-    <nav id="navbar">
-        <div class="logo">
-            <img src="../../assets/images/dmtransparant.png" alt="Dungeons and Muffins Logo">
-            <h2 class="site-title">Dungeons & Muffins</h2>
-        </div>
-        <ul class="nav-links">
-            <li><a href="./../../index.html">Home</a></li>
-            <li><a href="#">Map</a></li>
-            <li><a href="../party/party.html">Party</a></li>
-            <li><a href="../npc/npc.html">NPC</a></li>
-            <!-- Authentication Links -->
-            <li id="login-register-link" style="display: none;"><a href="../registration/signin.html">Login/Register</a></li>
-            <li id="logout-link" style="display: none;"><a href="./../../index.html">Logout</a></li>
-        </ul>
-    </nav>
-</header>
+<header id="navbar-container"></header>
+<div id="left-sidebar" class="left-sidebar">
+    <div class="hamburger-icon" onclick="toggleLeftSidebar()">&#9776;</div> <!-- Hamburger icon -->
+    <div class="left-sidebar-content">
+        <h2>Layers</h2>
+        <label>
+            <input type="checkbox" id="toggle-cities" checked> Cities
+        </label>
+        <label>
+            <input type="checkbox" id="toggle-regions" checked> Regions
+        </label>
+        <label>
+            <input type="checkbox" id="toggle-weather" checked> Weather
+        </label>
+        <h2>Admin Tools</h2>
+        <button id="addCityButton">Add City</button>
+        <button id="drawPolygon">Add Region</button>
+    </div>
+</div>
 <div id="sidebar" class="sidebar">
     <div id="sidebar-content">
         <!-- Dynamic content will be loaded here -->
@@ -76,9 +84,6 @@
     </div>
 </div>
 <div id="fantasyMap"></div>
-<button id="drawPolygon">Start Drawing</button>
-<button id="addCityButton">Add City</button> <!-- New button for adding city -->
 
-<script defer type="module" src="./../../lib/components/navbarLoader.js"></script>
 </body>
 </html>

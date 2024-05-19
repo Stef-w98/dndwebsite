@@ -1,0 +1,87 @@
+/* Styles for left sidebar */
+.left-sidebar {
+    height: calc(100% - 60px); /* Adjust height to fit under the navbar */
+    width: 60px; /* Initial width of the small visible part */
+    position: fixed;
+    z-index: 1001; /* Ensure it's above the map */
+    top: 60px; /* Adjust to start under the navbar */
+    left: 0;
+    background-color: #2C3E50;
+    overflow-x: hidden;
+    transition: width 0.5s;
+    color: #ECF0F1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content at the top */
+    padding-top: 20px; /* Space at the top */
+}
+
+.left-sidebar.open {
+    width: 300px; /* Full width when open */
+}
+
+.left-sidebar .left-sidebar-content {
+    display: none; /* Hidden by default */
+}
+
+.left-sidebar.open .left-sidebar-content {
+    display: block; /* Show content when sidebar is open */
+    padding: 20px;
+}
+
+.hamburger-icon {
+    position: absolute; /* Position it within the left sidebar */
+    top: 10px; /* Distance from the top */
+    left: 10px; /* Distance from the left, within the sidebar */
+    z-index: 1002; /* Ensure it's above the map */
+    background-color: #2C3E50;
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    padding: 10px; /* Padding for better size */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 26px; /* Text size */
+    transition: left 0.5s; /* Smooth transition for the left position */
+}
+
+.hamburger-icon:hover {
+    background-color: #384B61FF;
+}
+
+.left-sidebar.open .hamburger-icon {
+    left: 250px; /* Adjusted for full sidebar width when open */
+}
+
+#left-sidebar .left-sidebar-content button {
+    width: 100%; /* Make buttons take full width of the sidebar */
+    margin-top: 10px; /* Add some space between buttons */
+}
+
+#left-sidebar .left-sidebar-content h2 {
+    text-align: left; /* Align text to the left */
+}
+
+#left-sidebar .left-sidebar-content label {
+    display: block; /* Make each label display as a block element */
+    margin-bottom: 10px; /* Add space between the labels */
+}
+
+@media (max-width: 768px) {
+    .left-sidebar {
+        width: 50px;
+        height: calc(100% - 50px); /* Adjust height for mobile */
+        top: 50px; /* Adjust to start under the navbar for mobile */
+    }
+
+    .left-sidebar.open {
+        width: 100%;
+        height: auto;
+    }
+
+    .hamburger-icon {
+        left: 10px; /* Adjusted for smaller sidebar width */
+    }
+
+    .left-sidebar.open .hamburger-icon {
+        left: calc(100% - 50px); /* Adjusted for full sidebar width when open */
+    }
+}
