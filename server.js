@@ -14,12 +14,12 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: false } // Use true if using HTTPS
 }));
 
 // Use cache control
 app.use(cacheControl({
-    noCache: true,
+    noCache: true, // Disable caching
     private: false,
     mustRevalidate: true
 }));
@@ -31,16 +31,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 const authRoutes = require('./routes/auth');
 const dataRoutes = require('./routes/data');
 const mapRoutes = require('./routes/map');
+const weatherRoutes = require('./routes/weather');
 
 // Use routes
 app.use('/api', authRoutes);
 app.use('/api', dataRoutes);
 app.use('/api', mapRoutes);
+app.use('/api', weatherRoutes);
 
 console.log('Routes setup complete');
 
 // Start the server
-const PORT = 3000; // Use port 3000 instead of 80
+const PORT = 3000;
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

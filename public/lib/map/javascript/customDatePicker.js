@@ -1,4 +1,3 @@
-// customDatePicker.js
 document.addEventListener('DOMContentLoaded', () => {
     const dateInput = document.getElementById('dateInput');
     const datePickerPopup = document.getElementById('datePickerPopup');
@@ -95,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.textContent = day;
             cell.addEventListener('click', () => {
                 dateInput.value = `${monthName} ${day}, ${year}`;
+                console.log(`Date selected: ${dateInput.value}`);
+                const event = new Event('change');
+                dateInput.dispatchEvent(event);
                 datePickerPopup.style.display = 'none';
             });
             row.appendChild(cell);
@@ -115,9 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return days + (year - calendarData.year) * calendarData.year_len;
     }
 
-    document.addEventListener('click', (event) => {
-        if (!datePickerPopup.contains(event.target) && event.target !== dateInput) {
-            datePickerPopup.style.display = 'none';
-        }
-    });
+    function getCurrentDate() {
+        const currentDate = dateInput.value;
+        console.log(`Current date from date picker: ${currentDate}`);
+        return currentDate;
+    }
+
+    window.getCurrentDate = getCurrentDate; // Make it globally accessible if needed
 });

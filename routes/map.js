@@ -5,12 +5,8 @@ const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 // Fetch all map data
-router.get('/map-data', (req, res) => {
+router.get('/map-data', async (req, res) => {
     res.set('Cache-Control', 'no-store'); // Disable caching for this endpoint
-    fetchMapData(req, res);
-});
-
-async function fetchMapData(req, res) {
     try {
         const { data: cities, error: citiesError } = await supabase.from('cities').select('*');
         if (citiesError) throw citiesError;
@@ -24,11 +20,14 @@ async function fetchMapData(req, res) {
         const { data: weatherMarkers, error: weatherMarkersError } = await supabase.from('weathermarkers').select('*');
         if (weatherMarkersError) throw weatherMarkersError;
 
-        res.json({ cities, regions, coordinates, weatherMarkers });
+        const { data: weatherConditions, error: weatherConditionsError } = await supabase.from('weatherconditions').select('*');
+        if (weatherConditionsError) throw weatherConditionsError;
+
+        res.json({ cities, regions, coordinates, weatherMarkers, weatherConditions });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+});
 
 // Add a city
 router.post('/addCity', async (req, res) => {

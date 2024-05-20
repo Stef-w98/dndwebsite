@@ -1,72 +1,71 @@
-function seedRandom(seed) {
-    let x = Math.sin(seed) * 10000;
-    return x - Math.floor(x);
-}
+import { openSidebar } from './uiHelpers.js';
 
-function getSeededRandom(seed, min, max) {
-    return Math.floor(seedRandom(seed) * (max - min + 1)) + min;
-}
+export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seedDate, weatherConditions) {
+    const dateSeed = seedDate || new Date().getTime(); // Use the provided date seed or the current timestamp if not provided
+    const random = seedRandom(dateSeed);
+    console.log(`Using seed: ${dateSeed} for weather generation`);
 
-export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed) {
-    let { data: weatherMarkers, error } = await supabase.from('weathermarkers').select(`
-        markerid,
-        zoneid,
-        latitude,
-        longitude,
-        locationdescription,
-        climatezones:climatezones(name)
-    `);
+    try {
+        console.log('Fetching weather markers from API...');
+        const response = await fetch('/api/weather-markers');
+        if (!response.ok) throw new Error('Failed to fetch weather markers');
+        const weatherMarkers = await response.json();
 
-    if (error) {
-        console.error('Error loading weather markers:', error.message);
-        return;
-    }
+        console.log('Weather markers fetched:', weatherMarkers);
+        weatherLayerGroup.clearLayers(); // Clear existing weather markers before adding new ones
 
-    weatherLayerGroup.clearLayers(); // Clear existing weather markers before adding new ones
+        for (const marker of weatherMarkers) {
+            console.log('Fetching weather conditions for zone:', marker.zoneid);
+            const conditions = weatherConditions.filter(condition => condition.zoneid === marker.zoneid);
 
-    for (const marker of weatherMarkers) {
-        // Fetch weather conditions for the marker's climate zone
-        let { data: conditions, error: conditionsError } = await supabase.from('weatherconditions')
-            .select('name, mintemp, maxtemp, description')
-            .eq('zoneid', marker.zoneid);
+            if (!conditions || conditions.length === 0) {
+                console.error('No conditions found for zone:', marker.zoneid);
+                continue; // Skip this marker if conditions cannot be loaded
+            }
 
-        if (conditionsError) {
-            console.error('Error loading conditions:', conditionsError.message);
-            continue; // Skip this marker if conditions cannot be loaded
+            const randomCondition = conditions[Math.floor(random() * conditions.length)];
+            console.log('Random condition selected:', randomCondition);
+
+            if (randomCondition) {
+                displayWeatherMarker(marker, randomCondition, weatherLayerGroup, random);
+            }
         }
 
-        // Use the seed to consistently select a weather condition for the marker
-        const seededIndex = getSeededRandom(seed + marker.markerid, 0, conditions.length - 1);
-        const randomCondition = conditions[seededIndex];
-
-        if (randomCondition) {
-            displayWeatherMarker(marker, randomCondition, weatherLayerGroup, seed);
-        }
+        weatherLayerGroup.addTo(map);
+    } catch (error) {
+        console.error('Error fetching weather markers:', error.message);
     }
-
-    weatherLayerGroup.addTo(map);
 }
 
-function displayWeatherMarker(marker, condition, weatherLayerGroup, seed) {
-    // Generate a pseudo-random temperature using the seed
-    const randomTemp = getSeededRandom(seed + marker.markerid, condition.mintemp, condition.maxtemp);
+function displayWeatherMarker(marker, condition, weatherLayerGroup, random) {
+    console.log('Displaying weather marker:', marker, condition);
+    const randomTemp = Math.floor(random() * (condition.maxtemp - condition.mintemp + 1)) + condition.mintemp;
+    console.log(`Generated temperature: ${randomTemp}°C for condition: ${condition.name}`);
 
     const weatherIcon = L.icon({
-        iconUrl: determineIconUrl(condition.name),
-        iconSize: [32, 37], // Size of the icon
-        iconAnchor: [16, 37], // Point of the icon which will correspond to marker's location
-        popupAnchor: [0, -28] // Point from which the popup should open relative to the iconAnchor
+        iconUrl: condition.icon || './assets/weather/clear-day.svg', // Use a default icon if none is provided
+        iconSize: [32, 37],
+        iconAnchor: [16, 37],
+        popupAnchor: [0, -28]
     });
 
-    // Update tooltip to show the condition name
     const weatherMarker = L.marker([marker.latitude, marker.longitude], { icon: weatherIcon }).addTo(weatherLayerGroup)
         .bindTooltip(condition.name, { permanent: true });
 
     weatherMarker.on('click', () => {
         let content = `<h2>Weather in ${marker.climatezones.name}</h2><p>${marker.locationdescription}</p>`;
         content += `<p><strong>Condition:</strong> ${condition.name}</p>`;
-        content += `<p><strong>Temperature:</strong> ${randomTemp}°C</p>`; // Display the pseudo-random temperature
+        content += `<p><strong>Temperature:</strong> ${randomTemp}°C</p>`;
         content += `<p><strong>Description:</strong> ${condition.description}</p>`;
         openSidebar(content);
     });
+}
+
+function seedRandom(seed) {
+    console.log(`Generating random number with seed: ${seed}`);
+    let x = Math.sin(seed) * 10000;
+    return function() {
+        x = (x * 9301 + 49297) % 233280;
+        return x / 233280;
+    };
 }

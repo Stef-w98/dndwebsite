@@ -26,10 +26,12 @@ window.addEventListener('load', async () => {
     fetchAndDisplayCities(citiesLayerGroup, map, mapData.cities);
     fetchAndDisplayRegions(regionsLayerGroup, map, mapData.regions, mapData.coordinates);
 
-    // Get the date from the date picker and use it as a seed
     const dateInput = document.getElementById('dateInput');
-    const seed = new Date(dateInput.value).getTime();
-    fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed);
+    const initialDate = 'Hiems 12, 1011';
+    dateInput.value = initialDate;
+    const seed = generateSeedFromDate(initialDate);
+    console.log(`Initial seed: ${seed} from date: ${initialDate}`);
+    fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed, mapData.weatherConditions);
 
     setupDrawingTools(map);
     document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
@@ -90,10 +92,26 @@ window.addEventListener('load', async () => {
 
     // Re-fetch weather markers when the date changes
     dateInput.addEventListener('change', () => {
-        const newSeed = new Date(dateInput.value).getTime();
-        fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, newSeed);
+        const newDate = dateInput.value;
+        const newSeed = generateSeedFromDate(newDate);
+        console.log(`New seed: ${newSeed} from date: ${newDate}`);
+        fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, newSeed, mapData.weatherConditions);
     });
 });
+
+function generateSeedFromDate(dateString) {
+    const [month, day, year] = dateString.split(' ');
+    const monthIndex = {
+        "Hiems": 0,
+        "Vernalis": 1,
+        "Aestas": 2,
+        "Autumnus": 3,
+        "Nix": 4
+    }[month] || 0;
+    const seedDate = new Date(year, monthIndex, parseInt(day)).getTime();
+    console.log(`Generated seed date: ${seedDate} for date string: ${dateString}`);
+    return seedDate;
+}
 
 async function fetchMapData() {
     const response = await fetch(`/api/map-data?ts=${Date.now()}`);
@@ -101,7 +119,7 @@ async function fetchMapData() {
         return await response.json();
     } else {
         console.error('Failed to load map data.');
-        return { cities: [], regions: [], coordinates: [], weatherMarkers: [] };
+        return { cities: [], regions: [], coordinates: [], weatherMarkers: [], weatherConditions: [] };
     }
 }
 
