@@ -53,7 +53,7 @@ function displayWeatherMarker(marker, condition, weatherLayerGroup) {
 
     // Update tooltip to show the condition name
     const weatherMarker = L.marker([marker.latitude, marker.longitude], { icon: weatherIcon }).addTo(weatherLayerGroup)
-        .bindTooltip(condition.name, { permanent: true });
+        .bindTooltip(condition.name, { permanent: false });
 
     weatherMarker.on('click', () => {
         let content = `<h2>Weather in ${marker.climatezones.name}</h2><p>${marker.locationdescription}</p>`;
