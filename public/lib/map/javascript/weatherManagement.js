@@ -69,25 +69,16 @@ function seedRandom(seed) {
     let x = Math.sin(seed) * 10000;
     return function() {
         x = (x * 9301 + 49297) % 233280;
-        return x / 233280;
+        return (x / 233280 + 1) % 1; // Ensure the value is within the range [0, 1)
     };
 }
 
 function generateRandomTemperature(random, min, max) {
-    const adjustedMin = Math.abs(min);
-    const adjustedMax = Math.abs(max);
     const randomValue = random();
-    const range = adjustedMax - adjustedMin;
-    let generatedTemp = Math.floor(randomValue * (range + 1)) + adjustedMin;
+    const range = Math.abs(max - min);
+    let generatedTemp = Math.floor(randomValue * (range + 1)) + Math.min(min, max);
 
-    if (min < 0 && max < 0) {
-        generatedTemp = -generatedTemp;
-    } else if (min < 0 || max < 0) {
-        generatedTemp = random() >= 0.5 ? generatedTemp : -generatedTemp;
-    }
-    generatedTemp = Math.max(Math.min(generatedTemp, max), min); // Ensure the temperature is within the min and max range
-
-    console.log(`Random value: ${randomValue}, Temp range: ${range}, Adjusted Min: ${adjustedMin}, Adjusted Max: ${adjustedMax}, Generated temp: ${generatedTemp}`);
+    console.log(`Random value: ${randomValue}, Temp range: ${range}, Min: ${min}, Max: ${max}, Generated temp: ${generatedTemp}`);
     return generatedTemp;
 }
 

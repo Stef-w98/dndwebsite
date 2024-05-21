@@ -10,7 +10,7 @@ export async function fetchAndDisplayCities(citiesLayerGroup, map, cities) {
         marker.on('click', () => {
             let content = `<h2>${city.name}</h2>`;
             Object.entries(city).forEach(([key, value]) => {
-                if (value && key !== 'latitude' && key !== 'longitude') { // Exclude coordinates from the sidebar
+                if (value && key !== 'latitude' && key !== 'longitude' && key !== 'id' && key !== 'created_at') { // Exclude coordinates, id, and createdAt from the sidebar
                     // Make key more readable
                     const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); // Replace underscores with spaces and capitalize
                     content += `<p><strong>${formattedKey}:</strong> ${value}</p>`;

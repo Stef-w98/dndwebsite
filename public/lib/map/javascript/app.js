@@ -8,9 +8,9 @@ const bounds = [[0, 0], [562.5, 1000]];
 L.imageOverlay('./assets/general/Dryle.png', bounds).addTo(map);
 map.fitBounds(bounds);
 
-let citiesLayerGroup = L.layerGroup().addTo(map);
-let regionsLayerGroup = L.layerGroup().addTo(map);
-let weatherLayerGroup = L.layerGroup().addTo(map);
+let citiesLayerGroup = L.layerGroup();
+let regionsLayerGroup = L.layerGroup();
+let weatherLayerGroup = L.layerGroup().addTo(map); // Only add weather layer initially
 
 let overlays = {
     "Cities": citiesLayerGroup,
@@ -97,6 +97,7 @@ window.addEventListener('load', async () => {
         console.log(`New seed: ${newSeed} from date: ${newDate}`);
         fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, newSeed, mapData.weatherConditions);
     });
+
 });
 
 function generateSeedFromDate(dateString) {

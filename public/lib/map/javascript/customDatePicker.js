@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const calendarData = {
         year_len: 374,
         events: 1,
-        n_months: 6,
+        n_months: 5,
         months: ["Hiems", "Vernalis", "Aestas", "Autumnus", "Nix"],
         month_len: { Hiems: 62, Vernalis: 62, Aestas: 62, Autumnus: 62, Nix: 64 },
         week_len: 7,
