@@ -31,7 +31,7 @@ export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed
             }
         }
 
-        weatherLayerGroup.addTo(map);
+        // weatherLayerGroup.addTo(map);
     } catch (error) {
         console.error('Error fetching weather markers:', error.message);
     }

@@ -137,7 +137,7 @@ export async function fetchAndDisplayRegions(regionsLayerGroup, map) {
             });
         }
 
-        regionsLayerGroup.addTo(map);
+        // regionsLayerGroup.addTo(map);
     } catch (error) {
         console.error('Error fetching regions:', error.message);
     }

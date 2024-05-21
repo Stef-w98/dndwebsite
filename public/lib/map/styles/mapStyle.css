@@ -45,24 +45,6 @@
     padding-top: 0;
 }
 
-.region-label {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    font-family: serif;
-    font-size: 24px;
-    color: #0824ef;
-}
-
-#region-label{
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    font-family: serif;
-    font-size: 24px;
-    color: #dc0404;
-}
-
 .sidebar.open {
     right: 0;
 }

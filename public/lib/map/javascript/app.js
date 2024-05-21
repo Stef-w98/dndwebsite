@@ -8,9 +8,9 @@ const bounds = [[0, 0], [562.5, 1000]];
 L.imageOverlay('./assets/general/Dryle.png', bounds).addTo(map);
 map.fitBounds(bounds);
 
-let citiesLayerGroup = L.layerGroup().remove(map); // .addTo(map);
-let regionsLayerGroup = L.layerGroup().addTo(map);
-let weatherLayerGroup = L.layerGroup().addTo(map);
+let citiesLayerGroup = L.layerGroup().addTo(map); // .addTo(map);
+let regionsLayerGroup = L.layerGroup();
+let weatherLayerGroup = L.layerGroup();
 
 let overlays = {
     "Cities": citiesLayerGroup,
@@ -40,9 +40,9 @@ window.addEventListener('load', async () => {
     document.getElementById('drawPolygon').addEventListener('click', () => toggleDrawPolygonMode());
     document.querySelector('.hamburger-icon').addEventListener('click', toggleLeftSidebar);
 
-    document.getElementById('toggle-cities').checked = false;
+    document.getElementById('toggle-cities').checked = true;
     document.getElementById('toggle-regions').checked = false;
-    document.getElementById('toggle-weather').checked = true;
+    document.getElementById('toggle-weather').checked = false;
 
     document.getElementById('toggle-cities').addEventListener('change', function() {
         console.log("Toggle Cities: " + this.checked);
