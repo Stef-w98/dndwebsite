@@ -42,7 +42,7 @@ app.use('/api', weatherRoutes);
 console.log('Routes setup complete');
 
 // Start the server
-const PORT = 3000;
+const PORT = 3001;
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         moons: ["Lux", "Tace", "Clara"],
         lunar_cyc: { Lux: 12, Tace: 29, Clara: 48 },
         lunar_shf: { Lux: 0, Tace: 0, Clara: 0 },
-        year: 1011,
+        year: 1043,
         first_day: 0,
         notes: {}
     };
 
-    let currentMonthIndex = 0;
+    let currentMonthIndex = 2;
     let currentYear = calendarData.year;
 
     dateInput.addEventListener('click', () => {

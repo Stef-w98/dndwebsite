@@ -8,9 +8,9 @@ const bounds = [[0, 0], [562.5, 1000]];
 L.imageOverlay('./assets/general/Dryle.png', bounds).addTo(map);
 map.fitBounds(bounds);
 
-let citiesLayerGroup = L.layerGroup();
-let regionsLayerGroup = L.layerGroup();
-let weatherLayerGroup = L.layerGroup().addTo(map); // Only add weather layer initially
+let citiesLayerGroup = L.layerGroup().remove(map); // .addTo(map);
+let regionsLayerGroup = L.layerGroup().addTo(map);
+let weatherLayerGroup = L.layerGroup().addTo(map);
 
 let overlays = {
     "Cities": citiesLayerGroup,
@@ -27,7 +27,7 @@ window.addEventListener('load', async () => {
     fetchAndDisplayRegions(regionsLayerGroup, map, mapData.regions, mapData.coordinates);
 
     const dateInput = document.getElementById('dateInput');
-    const initialDate = 'Hiems 12, 1011';
+    const initialDate = 'Aestas 53, 1043';
     dateInput.value = initialDate;
     const seed = generateSeedFromDate(initialDate);
     console.log(`Initial seed: ${seed} from date: ${initialDate}`);
@@ -40,27 +40,34 @@ window.addEventListener('load', async () => {
     document.getElementById('drawPolygon').addEventListener('click', () => toggleDrawPolygonMode());
     document.querySelector('.hamburger-icon').addEventListener('click', toggleLeftSidebar);
 
+    document.getElementById('toggle-cities').checked = false;
+    document.getElementById('toggle-regions').checked = false;
+    document.getElementById('toggle-weather').checked = true;
+
     document.getElementById('toggle-cities').addEventListener('change', function() {
+        console.log("Toggle Cities: " + this.checked);
         if (this.checked) {
             citiesLayerGroup.addTo(map);
         } else {
-            citiesLayerGroup.remove();
+            map.removeLayer(citiesLayerGroup);
         }
     });
 
     document.getElementById('toggle-regions').addEventListener('change', function() {
+        console.log("Toggle Regions: " + this.checked);
         if (this.checked) {
             regionsLayerGroup.addTo(map);
         } else {
-            regionsLayerGroup.remove();
+            map.removeLayer(regionsLayerGroup);
         }
     });
 
     document.getElementById('toggle-weather').addEventListener('change', function() {
+        console.log("Toggle Weather: " + this.checked);
         if (this.checked) {
             weatherLayerGroup.addTo(map);
         } else {
-            weatherLayerGroup.remove();
+            map.removeLayer(weatherLayerGroup);
         }
     });
 
@@ -97,7 +104,6 @@ window.addEventListener('load', async () => {
         console.log(`New seed: ${newSeed} from date: ${newDate}`);
         fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, newSeed, mapData.weatherConditions);
     });
-
 });
 
 function generateSeedFromDate(dateString) {

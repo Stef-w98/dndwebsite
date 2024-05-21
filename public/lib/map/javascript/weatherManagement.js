@@ -5,17 +5,13 @@ export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed
     const random = seedRandom(dateSeed);
 
     try {
-        console.log('Using seed:', dateSeed, 'for weather generation');
-        console.log('Fetching weather markers from API...');
         const response = await fetch('/api/weather-markers');
         if (!response.ok) throw new Error('Failed to fetch weather markers');
         const weatherMarkers = await response.json();
 
-        console.log('Weather markers fetched:', weatherMarkers);
         weatherLayerGroup.clearLayers(); // Clear existing weather markers before adding new ones
 
         for (const marker of weatherMarkers) {
-            console.log('Fetching weather conditions for zone:', marker.zoneid);
             const conditions = weatherConditions.filter(condition => condition.zoneid === marker.zoneid);
 
             if (!conditions || conditions.length === 0) {
@@ -25,7 +21,6 @@ export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed
 
             const randomIndex = Math.floor(random() * conditions.length);
             const randomCondition = conditions[randomIndex];
-            console.log('Random condition selected:', randomCondition);
 
             if (randomCondition) {
                 const temperatureRandom = seedRandom(dateSeed + randomCondition.conditionid);
@@ -43,8 +38,6 @@ export async function fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed
 }
 
 function displayWeatherMarker(marker, condition, temperature, weatherLayerGroup) {
-    console.log('Displaying weather marker:', marker, condition);
-    console.log(`Generated temperature: ${temperature}°C for condition: ${condition.name}`);
 
     const weatherIcon = L.icon({
         iconUrl: determineIconUrl(condition.name), // Determine the icon URL based on condition name
@@ -78,7 +71,6 @@ function generateRandomTemperature(random, min, max) {
     const range = Math.abs(max - min);
     let generatedTemp = Math.floor(randomValue * (range + 1)) + Math.min(min, max);
 
-    console.log(`Random value: ${randomValue}, Temp range: ${range}, Min: ${min}, Max: ${max}, Generated temp: ${generatedTemp}`);
     return generatedTemp;
 }
 
