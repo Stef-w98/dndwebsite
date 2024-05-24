@@ -18,14 +18,19 @@
 
 <!-- Hero Section -->
 <section class="hero">
-    <img class="backgroundimg" src="assets/images/dmbackground.jpg" alt="background">
+    <div class="parallax"></div>
     <div class="hero-content">
         <img src="assets/images/dmtransparant.png" alt="logo">
+        <h1>Welcome to Dungeons and Muffins</h1>
+        <p>Embark on an epic adventure in the fantastical world of Dryle, where heroes rise and legends are born.</p>
+        <a href="#about" class="btn">Learn More</a>
     </div>
+    <div class="animated-clouds"></div>
+    <div class="animated-birds"></div>
 </section>
 
 <!-- About Section -->
-<section class="about">
+<section id="about" class="about">
     <h2>About Our Campaign</h2>
     <p>Welcome to an epic adventure set in the fantastical world of Dryle, where heroes rise and legends are born.</p>
 </section>
@@ -34,23 +39,49 @@
 <section class="features">
     <h2>Features</h2>
     <div class="feature-item">
+        <a href="./lib/map/map.html">
         <h3>Interactive Map</h3>
         <p>Explore the vast lands of our realm, from the dark forests of Merkwood to the bustling streets of Eldrimar.</p>
+        <div class="map-preview"></div></a>
     </div>
     <div class="feature-item">
         <h3>Meet the Heroes</h3>
         <p>Discover the brave souls who traverse the dangerous paths of Dryle in search of glory and honor.</p>
+        <div class="animated-characters"></div>
     </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta">
+    <h2>Join the Adventure</h2>
+    <p>Become a part of our legendary journey. Sign up now and start your own epic quest!</p>
+    <a href="./lib/registration/signin.html" class="btn">Sign Up</a>
 </section>
 
 <script defer>
     document.addEventListener('scroll', () => {
         const scrollPosition = window.scrollY;
         const heroContent = document.querySelector('.hero-content');
+        const parallax = document.querySelector('.parallax');
         const scale = 1 + scrollPosition * 0.001; // Slight scale based on scroll
         const translateY = scrollPosition * -0.1; // Moves content up
 
         heroContent.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
+        parallax.style.backgroundPositionY = `${scrollPosition * 0.5}px`; // Parallax effect
+    });
+
+    // Add sound effect to buttons
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const audio = new Audio('assets/sounds/button-click.mp3');
+            audio.play();
+        });
+    });
+
+    // Interactive map preview
+    const mapPreview = document.querySelector('.map-preview');
+    mapPreview.addEventListener('mouseleave', () => {
+        mapPreview.style.backgroundImage = 'url("./lib/map/assets/general/Dryle.png")';
     });
 </script>
 </body>

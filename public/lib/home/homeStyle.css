@@ -7,6 +7,8 @@
     --container-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
     --transition-speed: 0.3s;
     --card-border-radius: 8px;
+    --hero-bg: url('../.././assets/images/castle.png') no-repeat center center/cover;
+    --hero-bg-overlay: rgba(0, 0, 0, 0.7);
 }
 
 /* Custom scrollbar styles */
@@ -30,7 +32,7 @@
 body, html {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'MedievalSharp', cursive;
     background-color: var(--background-color);
     color: var(--text-color);
     scroll-behavior: smooth;
@@ -54,7 +56,30 @@ a:hover {
     color: #fff;
     text-align: center;
     height: 100vh;
+    background: var(--hero-bg);
     animation: fadeIn var(--transition-speed) ease-out;
+}
+
+.parallax {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--hero-bg);
+    z-index: 1;
+    background-attachment: fixed;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--hero-bg-overlay);
+    z-index: 2;
 }
 
 @keyframes fadeIn {
@@ -62,14 +87,9 @@ a:hover {
     to { opacity: 1; }
 }
 
-.backgroundimg {
-    width: 100%;
-    z-index: 1;
-}
-
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -95,13 +115,27 @@ a:hover {
     margin: 0 auto;
 }
 
+.hero-content .btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 5px;
+    transition: background-color var(--transition-speed);
+}
+
+.hero-content .btn:hover {
+    background-color: #1a5bb8;
+}
+
 @keyframes scaleDown {
     from { transform: scale(1.2); }
     to { transform: scale(1); }
 }
 
 /* Card Design */
-.features, .about {
+.features, .about, .cta {
     padding: var(--section-padding);
     text-align: center;
     background-color: var(--card-background-color);
@@ -111,7 +145,7 @@ a:hover {
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-.features:hover, .about:hover {
+.features:hover, .about:hover, .cta:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.4);
 }
@@ -126,6 +160,34 @@ a:hover {
     background-color: #1e1e1e;
 }
 
+.map-preview {
+    height: 200px;
+    background-image: url('../map/assets/general/Dryle.png');
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease;
+}
+
+.animated-characters {
+    height: 200px;
+    background-image: url('../../assets/images/1920x600-fansitekit.jpg');
+    background-size: contain;
+    background-position: center;
+}
+
 h2, h3 {
     color: var(--accent-color);
+}
+
+.cta .btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 5px;
+    transition: background-color var(--transition-speed);
+}
+
+.cta .btn:hover {
+    background-color: #1a5bb8;
 }
