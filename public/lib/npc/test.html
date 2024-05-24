@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DnD Trade Calculator</title>
+    <style>
+        body {
+            font-family: 'Garamond', serif;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 300px;
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .container h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #7f8c8d;
+            border-radius: 5px;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #e74c3c;
+            color: #ecf0f1;
+            font-weight: bold;
+        }
+        .button-group button:hover {
+            background-color: #c0392b;
+        }
+        .inventory {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #2c3e50;
+            border: 1px solid #7f8c8d;
+            border-radius: 5px;
+        }
+        .inventory h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .inventory p {
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DnD Trade Calculator</h1>
+    <div class="input-group">
+        <label for="copper">Copper Pieces:</label>
+        <input type="number" id="copper" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="silver">Silver Pieces:</label>
+        <input type="number" id="silver" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="gold">Gold Pieces:</label>
+        <input type="number" id="gold" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="platinum">Platinum Pieces:</label>
+        <input type="number" id="platinum" value="0" min="0">
+    </div>
+    <div class="button-group">
+        <button onclick="addCurrency()">Add</button>
+        <button onclick="subtractCurrency()">Subtract</button>
+    </div>
+    <div class="inventory">
+        <h2>Current Inventory</h2>
+        <p id="inventoryDisplay">Copper: 0 | Silver: 0 | Gold: 0 | Platinum: 0</p>
+    </div>
+</div>
+
+<script>
+    let inventory = {
+        cp: 0,
+        sp: 0,
+        gp: 0,
+        pp: 0
+    };
+
+    function convertCurrency() {
+        // Convert up
+        while (inventory.cp >= 10) {
+            inventory.cp -= 10;
+            inventory.sp += 1;
+        }
+        while (inventory.sp >= 10) {
+            inventory.sp -= 10;
+            inventory.gp += 1;
+        }
+        while (inventory.gp >= 10) {
+            inventory.gp -= 10;
+            inventory.pp += 1;
+        }
+
+        // Convert down
+        while (inventory.pp > 0 && inventory.gp < 0) {
+            inventory.pp -= 1;
+            inventory.gp += 10;
+        }
+        while (inventory.gp > 0 && inventory.sp < 0) {
+            inventory.gp -= 1;
+            inventory.sp += 10;
+        }
+        while (inventory.sp > 0 && inventory.cp < 0) {
+            inventory.sp -= 1;
+            inventory.cp += 10;
+        }
+    }
+
+    function addCurrency() {
+        let copper = parseInt(document.getElementById('copper').value) || 0;
+        let silver = parseInt(document.getElementById('silver').value) || 0;
+        let gold = parseInt(document.getElementById('gold').value) || 0;
+        let platinum = parseInt(document.getElementById('platinum').value) || 0;
+
+        inventory.cp += copper;
+        inventory.sp += silver;
+        inventory.gp += gold;
+        inventory.pp += platinum;
+
+        convertCurrency();
+        updateDisplay();
+        clearFields();
+    }
+
+    function subtractCurrency() {
+        let copper = parseInt(document.getElementById('copper').value) || 0;
+        let silver = parseInt(document.getElementById('silver').value) || 0;
+        let gold = parseInt(document.getElementById('gold').value) || 0;
+        let platinum = parseInt(document.getElementById('platinum').value) || 0;
+
+        // Convert down if necessary
+        if (copper > inventory.cp) {
+            let requiredCopper = copper - inventory.cp;
+            let silverToCopper = Math.ceil(requiredCopper / 10);
+            if (silverToCopper <= inventory.sp) {
+                inventory.sp -= silverToCopper;
+                inventory.cp += silverToCopper * 10;
+            } else {
+                let goldToCopper = Math.ceil((requiredCopper - inventory.sp * 10) / 100);
+                if (goldToCopper <= inventory.gp) {
+                    inventory.gp -= goldToCopper;
+                    inventory.sp += goldToCopper * 10;
+                    inventory.cp += silverToCopper * 10;
+                    inventory.sp -= silverToCopper;
+                } else {
+                    let platinumToCopper = Math.ceil((requiredCopper - inventory.sp * 10 - inventory.gp * 100) / 1000);
+                    if (platinumToCopper <= inventory.pp) {
+                        inventory.pp -= platinumToCopper;
+                        inventory.gp += platinumToCopper * 10;
+                        inventory.sp += goldToCopper * 10;
+                        inventory.cp += silverToCopper * 10;
+                        inventory.sp -= silverToCopper;
+                        inventory.gp -= goldToCopper;
+                    } else {
+                        alert("Insufficient funds for this transaction.");
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (silver > inventory.sp) {
+            let requiredSilver = silver - inventory.sp;
+            let goldToSilver = Math.ceil(requiredSilver / 10);
+            if (goldToSilver <= inventory.gp) {
+                inventory.gp -= goldToSilver;
+                inventory.sp += goldToSilver * 10;
+            } else {
+                let platinumToSilver = Math.ceil((requiredSilver - inventory.gp * 10) / 100);
+                if (platinumToSilver <= inventory.pp) {
+                    inventory.pp -= platinumToSilver;
+                    inventory.gp += platinumToSilver * 10;
+                    inventory.sp += goldToSilver * 10;
+                    inventory.gp -= goldToSilver;
+                } else {
+                    alert("Insufficient funds for this transaction.");
+                    return;
+                }
+            }
+        }
+
+        if (gold > inventory.gp) {
+            let requiredGold = gold - inventory.gp;
+            let platinumToGold = Math.ceil(requiredGold / 10);
+            if (platinumToGold <= inventory.pp) {
+                inventory.pp -= platinumToGold;
+                inventory.gp += platinumToGold * 10;
+            } else {
+                alert("Insufficient funds for this transaction.");
+                return;
+            }
+        }
+
+        inventory.cp -= copper;
+        inventory.sp -= silver;
+        inventory.gp -= gold;
+        inventory.pp -= platinum;
+
+        convertCurrency();
+        updateDisplay();
+        clearFields();
+    }
+
+    function updateDisplay() {
+        document.getElementById('inventoryDisplay').innerText = `Copper: ${inventory.cp} | Silver: ${inventory.sp} | Gold: ${inventory.gp} | Platinum: ${inventory.pp}`;
+    }
+
+    function clearFields() {
+        document.getElementById('copper').value = 0;
+        document.getElementById('silver').value = 0;
+        document.getElementById('gold').value = 0;
+        document.getElementById('platinum').value = 0;
+    }
+
+    // Prevent non-numeric input
+    document.querySelectorAll('input[type=number]').forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.value < 0) input.value = 0;
+        });
+    });
+</script>
+
+</body>
+</html>
