@@ -38,17 +38,6 @@ body, html {
     scroll-behavior: smooth;
 }
 
-/* Global link styles */
-a {
-    color: var(--accent-color);
-    text-decoration: none;
-    transition: color var(--transition-speed);
-}
-
-a:hover {
-    color: #ffffff;
-}
-
 /* Hero Section */
 .hero {
     position: relative;
@@ -119,14 +108,8 @@ a:hover {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: var(--accent-color);
     color: white;
     border-radius: 5px;
-    transition: background-color var(--transition-speed);
-}
-
-.hero-content .btn:hover {
-    background-color: #1a5bb8;
 }
 
 @keyframes scaleDown {
@@ -134,60 +117,65 @@ a:hover {
     to { transform: scale(1); }
 }
 
-/* Card Design */
-.features, .about, .cta {
-    padding: var(--section-padding);
-    text-align: center;
-    background-color: var(--card-background-color);
-    box-shadow: var(--container-shadow);
-    margin: 20px auto;
-    border-radius: var(--card-border-radius);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-}
-
-.features:hover, .about:hover, .cta:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.4);
-}
-
-.feature-item {
-    margin-bottom: 30px;
-    text-align: center;
-    transition: background-color var(--transition-speed);
-}
-
-.feature-item:hover {
-    background-color: #1e1e1e;
-}
-
-.map-preview {
-    height: 200px;
-    background-image: url('../map/assets/general/Dryle.png');
-    background-size: cover;
-    background-position: center;
-    transition: background-image 0.3s ease;
-}
-
-.animated-characters {
-    height: 200px;
-    background-image: url('../../assets/images/1920x600-fansitekit.jpg');
-    background-size: contain;
-    background-position: center;
-}
-
 h2, h3 {
     color: var(--accent-color);
 }
 
-.cta .btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: var(--accent-color);
-    color: white;
-    border-radius: 5px;
-    transition: background-color var(--transition-speed);
+.btn {
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
 }
 
-.cta .btn:hover {
-    background-color: #1a5bb8;
+.btn:hover .btn-slide-show-text1 {
+    margin-left: 65px;
+}
+
+.btn-half-swipe {
+    display: block;
+    overflow: hidden;
+    padding: 10px;
+    width: 180px;
+    text-align: center;
+    margin: auto;
+    text-transform: uppercase;
+    border: 2px solid rgb(51, 51, 51);
+    color: rgb(51, 51, 51);
+    text-decoration: none;
+    transition: 0.5s ease-in-out;
+}
+
+.btn-half-swipe::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    transition: 0.5s ease-in-out;
+}
+
+.btn-half-swipe span {
+    position: relative;
+    transition: 0.5s ease-in-out;
+    z-index: 4;
+}
+
+.btn-half-swipe::after {
+    left: -70px;
+    border-left: 50px solid transparent;
+    transform: translateX(100%);
+}
+
+.btn-half-swipe:hover::before {
+    transform: translateX(-49%);
+}
+
+.btn-half-swipe:hover::after {
+    transform: translateX(49%);
+}
+
+.btn-half-swipe--blue::after {
+    border-top: 80px solid rgb(58, 134, 255);
+}
+
+.btn-half-swipe--blue:hover {
+    border: 2px solid rgb(58, 134, 255);
 }
