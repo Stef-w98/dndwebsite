@@ -13,25 +13,52 @@
     <link rel="stylesheet" href="./signinStyle.css">
     <script defer type="module" src="../components/navbarLoader.js"></script>
     <script defer src="./register.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+    <style>
+        #warning-message {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <header id="navbar-container"></header>
 <div class="content">
-    <div class="form-box">
+    <div class="form-box" id="login-form-box">
         <h2>Login</h2>
         <form id="login-form">
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <div class="input-container">
+                <i class="fas fa-envelope icon"></i>
+                <input type="email" id="login-email" placeholder="Email" required>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" id="login-password" placeholder="Password" required>
+            </div>
+            <button type="submit">Sign In</button>
         </form>
+        <p>Not a member? <a href="#" id="show-register">Sign up now ➔</a></p>
     </div>
-    <div class="form-box">
+    <div class="form-box" id="register-form-box" style="display: none;">
         <h2>Register</h2>
         <form id="registration-form">
-            <input type="email" id="register-email" placeholder="Email" required>
-            <input type="password" id="register-password" placeholder="Password" required>
+            <div class="input-container">
+                <i class="fas fa-envelope icon"></i>
+                <input type="email" id="register-email" placeholder="Email" required>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" id="register-password" placeholder="Password" required>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" id="register-password-check" placeholder="Confirm Password" required>
+            </div>
+            <div id="warning-message"></div>
             <button type="submit">Register</button>
         </form>
+        <p>Already a member? <a href="#" id="show-login">Login ➔</a></p>
     </div>
 </div>
 </body>
