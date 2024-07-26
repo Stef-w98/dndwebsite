@@ -41,6 +41,24 @@ app.use('/api', weatherRoutes);
 
 console.log('Routes setup complete');
 
+// Inventory data
+let inventory = [];
+
+// Inventory routes
+app.get('/inventory', (req, res) => {
+    res.json(inventory);
+});
+
+app.post('/inventory', (req, res) => {
+    const { quantity, name } = req.body;
+    if (quantity && name) {
+        inventory.push({ quantity, name });
+        res.status(201).json({ message: 'Item added successfully' });
+    } else {
+        res.status(400).json({ message: 'Invalid item data' });
+    }
+});
+
 // Start the server
 const PORT = 3000;
 const server = app.listen(PORT, () => {

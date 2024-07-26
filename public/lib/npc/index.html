@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DnD Notes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>DnD Notes</h1>
+    <div class="content">
+        <div class="notes-section">
+            <textarea id="markdown-input"></textarea>
+            <div id="markdown-output"></div>
+        </div>
+        <div class="inventory-section">
+            <h2>Backpack</h2>
+            <form id="inventory-form">
+                <input type="number" id="item-quantity" placeholder="Quantity" required>
+                <input type="text" id="item-name" placeholder="Item Name" required>
+                <button type="submit">Add to Backpack</button>
+            </form>
+            <ul id="inventory-list"></ul>
+        </div>
+    </div>
+</div>
+<script defer src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script defer src="script.js"></script>
+</body>
+</html>

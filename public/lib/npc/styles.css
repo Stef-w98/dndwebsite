@@ -1,0 +1,119 @@
+body {
+    font-family: 'MedievalSharp', cursive;
+    margin: 0;
+    padding: 0;
+    background-color: #2d2a26;
+    color: #f4f4f4;
+    background-image: url('https://images.unsplash.com/photo-1575311376333-e02d61227c4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGZhbnRhc3klMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTYxODkxNzA4Ng&ixlib=rb-1.2.1&q=80&w=1080');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+h1 {
+    color: #d4af37;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.notes-section, .inventory-section {
+    width: 48%;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s;
+}
+
+.notes-section:hover, .inventory-section:hover {
+    transform: scale(1.05);
+}
+
+.markdown-controls {
+    margin-bottom: 10px;
+}
+
+.markdown-controls button {
+    background-color: #d4af37;
+    border: none;
+    padding: 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    font-family: 'MedievalSharp', cursive;
+    transition: background-color 0.3s;
+}
+
+.markdown-controls button:hover {
+    background-color: #b38e2f;
+}
+
+#markdown-input, #item-quantity, #item-name {
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-family: 'MedievalSharp', cursive;
+}
+
+#markdown-output {
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #000;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+form input, form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: 'MedievalSharp', cursive;
+}
+
+form button {
+    background-color: #d4af37;
+    color: #000;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #b38e2f;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    color: #000;
+    transition: background-color 0.3s;
+}
+
+li:hover {
+    background-color: #f4e4bc;
+}

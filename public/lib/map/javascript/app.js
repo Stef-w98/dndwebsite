@@ -3,37 +3,92 @@ import { fetchAndDisplayCities, addCity } from './cityManagement.js';
 import { setupDrawingTools, fetchAndDisplayRegions, handleRegionClick } from './regionManagement.js';
 import { fetchAndDisplayWeatherMarkers } from './weatherManagement.js';
 
-let map = L.map('fantasyMap', { crs: L.CRS.Simple, minZoom: 1, maxZoom: 4 });
-const bounds = [[0, 0], [562.5, 1000]];
-L.imageOverlay('./assets/general/Dryle.png', bounds).addTo(map);
-map.fitBounds(bounds);
-
-let citiesLayerGroup = L.layerGroup().addTo(map); // .addTo(map);
+let currentMap;
+let citiesLayerGroup = L.layerGroup();
 let regionsLayerGroup = L.layerGroup();
 let weatherLayerGroup = L.layerGroup();
 
-let overlays = {
-    "Cities": citiesLayerGroup,
-    "Regions": regionsLayerGroup,
-    "Weather": weatherLayerGroup
+const mapConfigurations = {
+    Dryle: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/general/Dryle.png', hasData: true },
+    Untherlands: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/general/Untherlands.png', hasData: false }
 };
+
+async function switchMap(mapConfig, mapName) {
+    if (currentMap) {
+        currentMap.remove();
+    }
+    document.getElementById('fantasyMap').innerHTML = ''; // Clear the container
+
+    currentMap = L.map('fantasyMap', { crs: L.CRS.Simple, minZoom: 1, maxZoom: 4 });
+    L.imageOverlay(mapConfig.overlayUrl, mapConfig.bounds).addTo(currentMap);
+    currentMap.fitBounds(mapConfig.bounds);
+
+    // Clear existing layers
+    citiesLayerGroup.clearLayers();
+    regionsLayerGroup.clearLayers();
+    weatherLayerGroup.clearLayers();
+
+    if (mapConfig.hasData) {
+        const mapData = await fetchMapData();
+        fetchAndDisplayCities(citiesLayerGroup, currentMap, mapData.cities);
+        fetchAndDisplayRegions(regionsLayerGroup, currentMap, mapData.regions, mapData.coordinates);
+        const initialDate = document.getElementById('dateInput').value;
+        const seed = generateSeedFromDate(initialDate);
+        fetchAndDisplayWeatherMarkers(weatherLayerGroup, currentMap, seed, mapData.weatherConditions);
+
+        // Set layer visibility according to the checkboxes
+        if (document.getElementById('toggle-cities').checked) {
+            citiesLayerGroup.addTo(currentMap);
+        }
+        if (document.getElementById('toggle-regions').checked) {
+            regionsLayerGroup.addTo(currentMap);
+        }
+        if (document.getElementById('toggle-weather').checked) {
+            weatherLayerGroup.addTo(currentMap);
+        }
+    }
+
+    setupEventListeners();
+}
+
+document.getElementById('map1').addEventListener('change', function() {
+    if (this.checked) {
+        switchMap(mapConfigurations.Dryle, 'Dryle');
+    }
+});
+
+document.getElementById('map2').addEventListener('change', function() {
+    if (this.checked) {
+        switchMap(mapConfigurations.Untherlands, 'Untherlands');
+    }
+});
+
+function setupEventListeners() {
+    currentMap.on('click', function(e) {
+        console.log("Map clicked");
+        if (addCityMode) {
+            console.log("Add city mode enabled. Clicking on map should show form.");
+            window.clickedLocation = e.latlng;
+            document.getElementById('cityFormModal').style.display = 'block';
+        } else if (drawPolygonMode) {
+            // Add logic for drawing polygon here
+        } else {
+            // Handle clicking on existing regions to show sidebar with region info
+        }
+    });
+}
 
 let addCityMode = false;
 let drawPolygonMode = false;
 
 window.addEventListener('load', async () => {
-    const mapData = await fetchMapData();
-    fetchAndDisplayCities(citiesLayerGroup, map, mapData.cities);
-    fetchAndDisplayRegions(regionsLayerGroup, map, mapData.regions, mapData.coordinates);
+    switchMap(mapConfigurations.Dryle, 'Dryle'); // Initial map load
 
     const dateInput = document.getElementById('dateInput');
     const initialDate = 'Aestas 53, 1043';
     dateInput.value = initialDate;
-    const seed = generateSeedFromDate(initialDate);
-    console.log(`Initial seed: ${seed} from date: ${initialDate}`);
-    fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, seed, mapData.weatherConditions);
 
-    setupDrawingTools(map);
+    setupDrawingTools(currentMap);
     document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
     document.getElementById('addCityForm').addEventListener('submit', handleCityFormSubmit);
     document.getElementById('addCityButton').addEventListener('click', () => toggleAddCityMode());
@@ -47,40 +102,27 @@ window.addEventListener('load', async () => {
     document.getElementById('toggle-cities').addEventListener('change', function() {
         console.log("Toggle Cities: " + this.checked);
         if (this.checked) {
-            citiesLayerGroup.addTo(map);
+            citiesLayerGroup.addTo(currentMap);
         } else {
-            map.removeLayer(citiesLayerGroup);
+            currentMap.removeLayer(citiesLayerGroup);
         }
     });
 
     document.getElementById('toggle-regions').addEventListener('change', function() {
         console.log("Toggle Regions: " + this.checked);
         if (this.checked) {
-            regionsLayerGroup.addTo(map);
+            regionsLayerGroup.addTo(currentMap);
         } else {
-            map.removeLayer(regionsLayerGroup);
+            currentMap.removeLayer(regionsLayerGroup);
         }
     });
 
     document.getElementById('toggle-weather').addEventListener('change', function() {
         console.log("Toggle Weather: " + this.checked);
         if (this.checked) {
-            weatherLayerGroup.addTo(map);
+            weatherLayerGroup.addTo(currentMap);
         } else {
-            map.removeLayer(weatherLayerGroup);
-        }
-    });
-
-    map.on('click', function(e) {
-        console.log("Map clicked");
-        if (addCityMode) {
-            console.log("Add city mode enabled. Clicking on map should show form.");
-            window.clickedLocation = e.latlng;
-            document.getElementById('cityFormModal').style.display = 'block';
-        } else if (drawPolygonMode) {
-            // Add logic for drawing polygon here
-        } else {
-            // Handle clicking on existing regions to show sidebar with region info
+            currentMap.removeLayer(weatherLayerGroup);
         }
     });
 
@@ -95,14 +137,16 @@ window.addEventListener('load', async () => {
         document.getElementById('cityFormModal').style.display = 'none';
     };
 
+    const mapData = await fetchMapData();
     populateRegionList(mapData.regions);
 
     // Re-fetch weather markers when the date changes
-    dateInput.addEventListener('change', () => {
+    dateInput.addEventListener('change', async () => {
         const newDate = dateInput.value;
         const newSeed = generateSeedFromDate(newDate);
         console.log(`New seed: ${newSeed} from date: ${newDate}`);
-        fetchAndDisplayWeatherMarkers(weatherLayerGroup, map, newSeed, mapData.weatherConditions);
+        const mapData = await fetchMapData();
+        fetchAndDisplayWeatherMarkers(weatherLayerGroup, currentMap, newSeed, mapData.weatherConditions);
     });
 });
 
@@ -154,7 +198,7 @@ async function handleCityFormSubmit(e) {
             const newCity = await addCity(cityData);
             citiesLayerGroup.clearLayers();
             const mapData = await fetchMapData();
-            fetchAndDisplayCities(citiesLayerGroup, map, mapData.cities);
+            fetchAndDisplayCities(citiesLayerGroup, currentMap, mapData.cities);
             document.getElementById('cityFormModal').style.display = 'none';
             e.target.reset();
             toggleAddCityMode(false);
