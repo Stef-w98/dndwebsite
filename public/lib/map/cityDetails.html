@@ -11,6 +11,34 @@
     <link rel="stylesheet" href="../components/navbarStyle.css">
     <script defer type="module" src="../components/navbarLoader.js"></script>
     <script defer type="module" src="./javascript/cityDetails.js"></script>
+    <style>
+        .gallery {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+        .gallery-image {
+            width: 100%;
+            height: auto;
+        }
+        .gallery-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .prev-button {
+            left: 10px;
+        }
+        .next-button {
+            right: 10px;
+        }
+    </style>
 </head>
 <body>
 <header id="navbar-container"></header>
@@ -18,7 +46,7 @@
     <div class="header">Name of City</div>
     <div class="description">Description of the city...</div>
     <div class="image-container">
-        <img src="./assets/general/default.jpg" alt="City Image">
+        <!-- Gallery will be dynamically inserted here -->
     </div>
     <div class="tabs">
         <!-- Tabs will be dynamically inserted here -->

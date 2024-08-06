@@ -1,12 +1,11 @@
 require('dotenv').config();
-
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cacheControl = require('express-cache-controller');
 const multer = require('multer');
-const fs = require('fs');
 
 const app = express();
 
@@ -32,9 +31,33 @@ app.use(cacheControl({
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Multer configuration
-const uploadFolder = path.join(__dirname, 'public', 'cityImages');
+// Fetch all map data
+app.get('/api/map-data', async (req, res) => {
+    res.set('Cache-Control', 'no-store'); // Disable caching for this endpoint
+    try {
+        const { data: cities, error: citiesError } = await supabase.from('cities').select('*, images');
+        if (citiesError) throw citiesError;
 
+        const { data: regions, error: regionsError } = await supabase.from('regions').select('*');
+        if (regionsError) throw regionsError;
+
+        const { data: coordinates, error: coordinatesError } = await supabase.from('coordinates').select('*');
+        if (coordinatesError) throw coordinatesError;
+
+        const { data: weatherMarkers, error: weatherMarkersError } = await supabase.from('weathermarkers').select('*');
+        if (weatherMarkersError) throw weatherMarkersError;
+
+        const { data: weatherConditions, error: weatherConditionsError } = await supabase.from('weatherconditions').select('*');
+        if (weatherConditionsError) throw weatherConditionsError;
+
+        res.json({ cities, regions, coordinates, weatherMarkers, weatherConditions });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Multer configuration for file uploads
+const uploadFolder = path.join(__dirname, 'public', 'cityImages');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const cityName = req.body.name;

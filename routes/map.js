@@ -8,7 +8,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 router.get('/map-data', async (req, res) => {
     res.set('Cache-Control', 'no-store'); // Disable caching for this endpoint
     try {
-        const { data: cities, error: citiesError } = await supabase.from('cities').select('*');
+        const { data: cities, error: citiesError } = await supabase.from('cities').select('*, images');
         if (citiesError) throw citiesError;
 
         const { data: regions, error: regionsError } = await supabase.from('regions').select('*');

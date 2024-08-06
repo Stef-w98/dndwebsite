@@ -29,19 +29,44 @@ async function fetchCityDetails(name, id) {
         document.querySelector('.header').innerText = city.name;
         document.querySelector('.description').innerText = city.description || 'No description available.';
 
-        // Set a random default image if none is provided
-        const defaultImages = [
-            './assets/general/default.jpg',
-            './assets/general/default2.jpg',
-            './assets/general/default3.jpg',
-            './assets/general/default4.jpg'
-        ];
-        const randomDefaultImage = defaultImages[Math.floor(Math.random() * defaultImages.length)];
-        const imageUrl = city.image || randomDefaultImage;
-        document.querySelector('.image-container img').src = imageUrl;
+        // Fetch images from the images column
+        let images = city.images ? JSON.parse(city.images) : [];
+
+        // If there are no images, use a random default image
+        if (images.length === 0) {
+            const defaultImages = [
+                './assets/general/default.jpg',
+                './assets/general/default2.jpg',
+                './assets/general/default3.jpg',
+                './assets/general/default4.jpg'
+            ];
+            images = [defaultImages[Math.floor(Math.random() * defaultImages.length)]];
+        }
+
+        // Create the image gallery
+        const imageContainer = document.querySelector('.image-container');
+        imageContainer.innerHTML = `
+            <div class="gallery">
+                <img src="${images[0]}" alt="City Image" class="gallery-image">
+                <button class="gallery-button prev-button">&lt;</button>
+                <button class="gallery-button next-button">&gt;</button>
+            </div>
+        `;
+
+        let currentImageIndex = 0;
+
+        document.querySelector('.prev-button').addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.querySelector('.gallery-image').src = images[currentImageIndex];
+        });
+
+        document.querySelector('.next-button').addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.querySelector('.gallery-image').src = images[currentImageIndex];
+        });
 
         // Dynamically create tabs and content based on city data
-        const keysToExclude = ['latitude', 'longitude', 'id', 'created_at', 'name', 'description', 'image'];
+        const keysToExclude = ['latitude', 'longitude', 'id', 'created_at', 'name', 'description', 'images'];
         const tabContainer = document.querySelector('.tabs');
         let tabContentHtml = '';
 
