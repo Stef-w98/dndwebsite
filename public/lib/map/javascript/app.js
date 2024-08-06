@@ -180,7 +180,9 @@ async function handleCityFormSubmit(e) {
     const formData = new FormData(e.target);
     const cityData = {};
     formData.forEach((value, key) => {
-        cityData[key] = value;
+        if (key !== 'files') {
+            cityData[key] = value;
+        }
     });
 
     cityData.latitude = window.clickedLocation.lat;
@@ -195,13 +197,31 @@ async function handleCityFormSubmit(e) {
     const isConfirmed = confirm('Are you sure you want to add this city?');
     if (isConfirmed) {
         try {
-            const newCity = await addCity(cityData);
-            citiesLayerGroup.clearLayers();
-            const mapData = await fetchMapData();
-            fetchAndDisplayCities(citiesLayerGroup, currentMap, mapData.cities);
-            document.getElementById('cityFormModal').style.display = 'none';
-            e.target.reset();
-            toggleAddCityMode(false);
+            const response = await fetch(`/upload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                cityData.images = result.paths; // Store the uploaded image paths in the city data
+
+                // Add city to Supabase
+                const newCity = await addCity(cityData);
+
+                // Update the map with the new city
+                citiesLayerGroup.clearLayers();
+                const mapData = await fetchMapData();
+                fetchAndDisplayCities(citiesLayerGroup, currentMap, mapData.cities);
+
+                // Close the form and reset
+                document.getElementById('cityFormModal').style.display = 'none';
+                e.target.reset();
+                toggleAddCityMode(false);
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to upload images: ${errorData.error}`);
+            }
         } catch (error) {
             alert(`Failed to add city: ${error.message}`);
         }

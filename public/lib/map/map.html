@@ -87,7 +87,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>City Details</h2>
-        <form id="addCityForm">
+        <form id="addCityForm" enctype="multipart/form-data">
             <label for="cityName">Name:</label>
             <input type="text" id="cityName" name="name" required>
             <label for="cityDescription">Description:</label>
@@ -110,6 +110,8 @@
             <textarea id="cityPointsOfInterest" name="points_of_interest"></textarea>
             <label for="cityPopulations">Populations:</label>
             <input type="text" id="cityPopulations" name="populations">
+            <label for="cityImages">Upload Images:</label>
+            <input type="file" id="cityImages" name="files" multiple>
             <input type="submit" value="Save City">
         </form>
     </div>
