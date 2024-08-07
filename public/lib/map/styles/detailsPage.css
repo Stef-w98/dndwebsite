@@ -40,6 +40,9 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    height: 700px; /* Fixed height for the container */
+    overflow: hidden; /* Ensure images can't exceed the container */
+    position: relative;
 }
 
 .image-container img {
@@ -109,4 +112,75 @@ button {
 
 button:hover {
     background-color: #1b57b2;
+}
+
+/* Gallery Styles */
+.gallery {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 100%; /* Ensure the gallery fills the container height */
+    margin: auto;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the container without exceeding it */
+    display: none;
+}
+
+.gallery-image.active {
+    display: block;
+}
+
+.gallery-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 50px;
+    width: 50px;
+    background-color: transparent; /* No background */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.gallery-button:hover {
+    background-color: rgba(0, 0, 0, 0.0); /* Add a slight background on hover for better visibility */
+}
+
+.prev-button {
+    left: 0;
+}
+
+.next-button {
+    right: 0;
+}
+
+.dot-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
 }

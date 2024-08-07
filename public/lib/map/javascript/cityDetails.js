@@ -1,4 +1,3 @@
-
 function openTab(event, tabName) {
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => {
