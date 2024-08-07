@@ -1,3 +1,4 @@
+
 function openTab(event, tabName) {
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => {
@@ -45,24 +46,44 @@ async function fetchCityDetails(name, id) {
 
         // Create the image gallery
         const imageContainer = document.querySelector('.image-container');
-        imageContainer.innerHTML = `
+        let galleryHtml = `
             <div class="gallery">
-                <img src="${images[0]}" alt="City Image" class="gallery-image">
+                ${images.map((image, index) => `<img src="${image}" alt="City Image" class="gallery-image ${index === 0 ? 'active' : ''}">`).join('')}
                 <button class="gallery-button prev-button">&lt;</button>
                 <button class="gallery-button next-button">&gt;</button>
+                <div class="dot-container">
+                    ${images.map((_, index) => `<span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>`).join('')}
+                </div>
             </div>
         `;
+        imageContainer.innerHTML = galleryHtml;
 
         let currentImageIndex = 0;
 
+        const showImage = (index) => {
+            const images = document.querySelectorAll('.gallery-image');
+            const dots = document.querySelectorAll('.dot');
+            images.forEach((img, i) => {
+                img.classList.toggle('active', i === index);
+                dots[i].classList.toggle('active', i === index);
+            });
+        };
+
         document.querySelector('.prev-button').addEventListener('click', () => {
             currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            document.querySelector('.gallery-image').src = images[currentImageIndex];
+            showImage(currentImageIndex);
         });
 
         document.querySelector('.next-button').addEventListener('click', () => {
             currentImageIndex = (currentImageIndex + 1) % images.length;
-            document.querySelector('.gallery-image').src = images[currentImageIndex];
+            showImage(currentImageIndex);
+        });
+
+        document.querySelectorAll('.dot').forEach(dot => {
+            dot.addEventListener('click', (event) => {
+                currentImageIndex = Number(event.target.getAttribute('data-index'));
+                showImage(currentImageIndex);
+            });
         });
 
         // Dynamically create tabs and content based on city data
