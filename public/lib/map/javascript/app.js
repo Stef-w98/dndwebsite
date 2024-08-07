@@ -2,6 +2,7 @@ import { openSidebar, closeSidebar } from './uiHelpers.js';
 import { fetchAndDisplayCities, addCity } from './cityManagement.js';
 import { setupDrawingTools, fetchAndDisplayRegions, handleRegionClick } from './regionManagement.js';
 import { fetchAndDisplayWeatherMarkers } from './weatherManagement.js';
+import Compressor from 'compressorjs';
 
 let currentMap;
 let citiesLayerGroup = L.layerGroup();
@@ -210,7 +211,7 @@ async function handleCityFormSubmit(e) {
                 }
             }
 
-            const response = await fetch(`/upload`, {
+            const response = await fetch('/upload', {
                 method: 'POST',
                 body: newFormData
             });
