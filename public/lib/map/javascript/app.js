@@ -197,9 +197,22 @@ async function handleCityFormSubmit(e) {
     const isConfirmed = confirm('Are you sure you want to add this city?');
     if (isConfirmed) {
         try {
+            const files = formData.getAll('files');
+            const compressedFiles = await Promise.all(files.map(file => compressImage(file)));
+
+            const newFormData = new FormData();
+            compressedFiles.forEach(file => {
+                newFormData.append('files', file);
+            });
+            for (const [key, value] of formData.entries()) {
+                if (key !== 'files') {
+                    newFormData.append(key, value);
+                }
+            }
+
             const response = await fetch(`/upload`, {
                 method: 'POST',
-                body: formData
+                body: newFormData
             });
 
             if (response.ok) {
@@ -228,6 +241,20 @@ async function handleCityFormSubmit(e) {
     } else {
         document.getElementById('cityFormModal').style.display = 'none';
     }
+}
+
+function compressImage(file) {
+    return new Promise((resolve, reject) => {
+        new Compressor(file, {
+            quality: 0.6, // Adjust quality as needed
+            success(result) {
+                resolve(result);
+            },
+            error(err) {
+                reject(err);
+            },
+        });
+    });
 }
 
 function toggleAddCityMode(forceDisable = false) {

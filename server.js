@@ -14,8 +14,8 @@ const app = express();
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 // Middleware to parse JSON requests with larger limits
-app.use(bodyParser.json({ limit: '50mb' })); // Increase limit as needed
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // Increase limit as needed
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Use sessions
 app.use(session({
@@ -27,7 +27,7 @@ app.use(session({
 
 // Use cache control
 app.use(cacheControl({
-    noCache: true, // Disable caching
+    noCache: true,
     private: false,
     mustRevalidate: true
 }));
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Fetch all map data
 app.get('/api/map-data', async (req, res) => {
-    res.set('Cache-Control', 'no-store'); // Disable caching for this endpoint
+    res.set('Cache-Control', 'no-store');
     try {
         console.log('Fetching cities...');
         const { data: cities, error: citiesError } = await supabase.from('cities').select('*, images');
