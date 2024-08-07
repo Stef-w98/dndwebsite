@@ -13,9 +13,9 @@ const app = express();
 // Supabase client
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-// Middleware to parse JSON requests
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware to parse JSON requests with larger limits
+app.use(bodyParser.json({ limit: '50mb' })); // Increase limit as needed
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // Increase limit as needed
 
 // Use sessions
 app.use(session({
@@ -71,7 +71,6 @@ app.get('/api/map-data', async (req, res) => {
     }
 });
 
-
 // Multer configuration for file uploads
 const uploadFolder = path.join(__dirname, 'public', 'cityImages');
 const storage = multer.diskStorage({
@@ -98,7 +97,10 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 50 * 1024 * 1024 } // Limit file size to 50MB
+});
 
 // Handle file uploads
 app.post('/upload', upload.array('files'), (req, res) => {

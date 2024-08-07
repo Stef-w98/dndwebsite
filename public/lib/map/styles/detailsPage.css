@@ -40,8 +40,8 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 700px; /* Fixed height for the container */
-    overflow: hidden; /* Ensure images can't exceed the container */
+    height: 700px;
+    overflow: hidden;
     position: relative;
 }
 
@@ -119,14 +119,14 @@ button:hover {
     position: relative;
     width: 100%;
     max-width: 1000px;
-    height: 100%; /* Ensure the gallery fills the container height */
+    height: 100%;
     margin: auto;
 }
 
 .gallery-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cover the container without exceeding it */
+    object-fit: cover;
     display: none;
 }
 
@@ -140,7 +140,7 @@ button:hover {
     transform: translateY(-50%);
     height: 50px;
     width: 50px;
-    background-color: transparent; /* No background */
+    background-color: transparent;
     color: white;
     border: none;
     padding: 10px;
@@ -154,7 +154,7 @@ button:hover {
 }
 
 .gallery-button:hover {
-    background-color: rgba(0, 0, 0, 0.0); /* Add a slight background on hover for better visibility */
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
 .prev-button {
