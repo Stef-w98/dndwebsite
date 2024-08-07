@@ -210,7 +210,7 @@ async function handleCityFormSubmit(e) {
                 }
             }
 
-            const response = await fetch(`/upload`, {
+            const response = await fetch('http://localhost:3000/upload', { // Ensure the correct URL is used
                 method: 'POST',
                 body: newFormData
             });
