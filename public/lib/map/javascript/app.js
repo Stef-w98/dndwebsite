@@ -180,10 +180,13 @@ async function handleCityFormSubmit(e) {
     const formData = new FormData(e.target);
     const cityData = {};
     formData.forEach((value, key) => {
-        if (key !== 'files') {
+        if (key !== 'files' && key !== 'capital') {
             cityData[key] = value;
         }
     });
+
+    // Add the 'capital' field to the city data
+    cityData.capital = document.getElementById('capitalSwitch').checked;
 
     console.log('City Data:', cityData);
 
@@ -211,6 +214,9 @@ async function handleCityFormSubmit(e) {
             compressedFiles.forEach(file => {
                 newFormData.append('files', file);
             });
+
+            // Add the 'capital' field to the FormData
+            newFormData.append('capital', cityData.capital);
 
             // Log form data to debug
             console.log("Form Data Before POST:", Array.from(newFormData.entries()));

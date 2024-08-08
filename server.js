@@ -83,6 +83,9 @@ const upload = multer({
 app.post('/upload', upload.array('files'), (req, res) => {
     try {
         const cityName = req.body.name;
+        const isCapital = req.body.capital === 'true'; // Note: req.body.capital will be a string
+        console.log("Received cityName:", cityName); // Debugging line
+        console.log("Is Capital:", isCapital); // Debugging line
         if (!cityName) {
             throw new Error("City name is required");
         }
@@ -91,7 +94,7 @@ app.post('/upload', upload.array('files'), (req, res) => {
             throw new Error('No files uploaded');
         }
         const paths = files.map(file => `/cityImages/${cityName}/${file.filename}`);
-        res.json({ paths: paths });
+        res.json({ paths: paths, capital: isCapital });
     } catch (error) {
         console.error('Error during file upload:', error);
         res.status(500).json({ error: error.message });
