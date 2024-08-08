@@ -16,16 +16,13 @@ async function checkLoginStatus() {
     const response = await fetch('/api/check-session');
     if (response.ok) {
         const data = await response.json();
-        console.log('Session data:', data); // Log the session data
 
         if (data.loggedIn) {
             document.getElementById('login-register-link').style.display = 'none';
             document.getElementById('logout-link').style.display = 'block';
-            console.log('User is logged in, showing logout link.'); // Log if user is logged in
         } else {
             document.getElementById('login-register-link').style.display = 'block';
             document.getElementById('logout-link').style.display = 'none';
-            console.log('User is not logged in, showing login/register link.'); // Log if user is not logged in
         }
 
         document.getElementById('logout-link').addEventListener('click', async () => {
@@ -34,7 +31,6 @@ async function checkLoginStatus() {
             });
             if (logoutResponse.ok) {
                 window.location.href = '/';
-                console.log('User logged out successfully.'); // Log successful logout
             } else {
                 console.error('Failed to log out.');
             }

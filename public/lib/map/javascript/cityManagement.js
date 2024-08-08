@@ -15,7 +15,6 @@ export async function fetchAndDisplayCities(citiesLayerGroup, map, cities) {
 
     cities.forEach(city => {
         const icon = city.capital ? redIcon : new L.Icon.Default();
-        console.log(`City: ${city.name}, Capital: ${city.capital}, Using Icon: ${city.capital ? 'Red' : 'Default'}`);
         const marker = L.marker([city.latitude, city.longitude], { title: city.name, icon }).addTo(citiesLayerGroup)
             .bindTooltip(city.name); // Display city name on hover
 

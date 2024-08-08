@@ -30,13 +30,7 @@ function selectCity(city) {
     // Assuming latitude and longitude are within your custom map's bounds,
     // directly add the city to the selectedCities array
     selectedCities.push({ name: city.name, coords: [latitude, longitude] });
-    console.log(`Selected ${city.name}`);
 
-    // Here, you might check if you've selected enough cities to generate a route and call createRandomTradeRoute(selectedCities);
-    // if (selectedCities.length === 3) { // Adjust the number as needed
-    //     createRandomTradeRoute(selectedCities);
-    //     selectedCities = []; // Optionally reset the selection after generating the route
-    // }
 }
 
 function createRandomTradeRoute(selectedCities) {

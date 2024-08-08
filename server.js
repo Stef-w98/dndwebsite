@@ -48,8 +48,7 @@ app.use(cors({
 const uploadFolder = path.join(__dirname, 'public', 'cityImages');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const cityName = req.body.name;
-        console.log("Received cityName:", cityName); // Debugging line
+        const cityName = req.body.name.replace(/ /g, '_'); // Replace spaces with underscores
         if (!cityName) {
             return cb(new Error("City name is required"));
         }
@@ -60,7 +59,7 @@ const storage = multer.diskStorage({
         cb(null, cityFolder);
     },
     filename: function (req, file, cb) {
-        const cityName = req.body.name;
+        const cityName = req.body.name.replace(/ /g, '_'); // Replace spaces with underscores
         const extension = path.extname(file.originalname);
         let baseFilename = cityName;
         let counter = 1;
@@ -82,10 +81,8 @@ const upload = multer({
 // Handle file uploads
 app.post('/upload', upload.array('files'), (req, res) => {
     try {
-        const cityName = req.body.name;
+        const cityName = req.body.name.replace(/ /g, '_'); // Replace spaces with underscores
         const isCapital = req.body.capital === 'true'; // Note: req.body.capital will be a string
-        console.log("Received cityName:", cityName); // Debugging line
-        console.log("Is Capital:", isCapital); // Debugging line
         if (!cityName) {
             throw new Error("City name is required");
         }

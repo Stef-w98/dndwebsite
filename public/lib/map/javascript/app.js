@@ -65,9 +65,7 @@ document.getElementById('map2').addEventListener('change', function() {
 
 function setupEventListeners() {
     currentMap.on('click', function(e) {
-        console.log("Map clicked");
         if (addCityMode) {
-            console.log("Add city mode enabled. Clicking on map should show form.");
             window.clickedLocation = e.latlng;
             document.getElementById('cityFormModal').style.display = 'block';
         } else if (drawPolygonMode) {
@@ -100,7 +98,6 @@ window.addEventListener('load', async () => {
     document.getElementById('toggle-weather').checked = false;
 
     document.getElementById('toggle-cities').addEventListener('change', function() {
-        console.log("Toggle Cities: " + this.checked);
         if (this.checked) {
             citiesLayerGroup.addTo(currentMap);
         } else {
@@ -109,7 +106,6 @@ window.addEventListener('load', async () => {
     });
 
     document.getElementById('toggle-regions').addEventListener('change', function() {
-        console.log("Toggle Regions: " + this.checked);
         if (this.checked) {
             regionsLayerGroup.addTo(currentMap);
         } else {
@@ -118,7 +114,6 @@ window.addEventListener('load', async () => {
     });
 
     document.getElementById('toggle-weather').addEventListener('change', function() {
-        console.log("Toggle Weather: " + this.checked);
         if (this.checked) {
             weatherLayerGroup.addTo(currentMap);
         } else {
@@ -144,7 +139,6 @@ window.addEventListener('load', async () => {
     dateInput.addEventListener('change', async () => {
         const newDate = dateInput.value;
         const newSeed = generateSeedFromDate(newDate);
-        console.log(`New seed: ${newSeed} from date: ${newDate}`);
         const mapData = await fetchMapData();
         fetchAndDisplayWeatherMarkers(weatherLayerGroup, currentMap, newSeed, mapData.weatherConditions);
     });
@@ -160,7 +154,6 @@ function generateSeedFromDate(dateString) {
         "Nix": 4
     }[month] || 0;
     const seedDate = new Date(year, monthIndex, parseInt(day)).getTime();
-    console.log(`Generated seed date: ${seedDate} for date string: ${dateString}`);
     return seedDate;
 }
 
@@ -187,8 +180,6 @@ async function handleCityFormSubmit(e) {
 
     // Add the 'capital' field to the city data
     cityData.capital = document.getElementById('capitalSwitch').checked;
-
-    console.log('City Data:', cityData);
 
     cityData.latitude = window.clickedLocation.lat;
     cityData.longitude = window.clickedLocation.lng;
@@ -217,9 +208,6 @@ async function handleCityFormSubmit(e) {
 
             // Add the 'capital' field to the FormData
             newFormData.append('capital', cityData.capital);
-
-            // Log form data to debug
-            console.log("Form Data Before POST:", Array.from(newFormData.entries()));
 
             const response = await fetch('https://www.dungeonsandmuffins.be/upload', { // Update the URL to your production server
                 method: 'POST',
@@ -275,7 +263,6 @@ function compressImage(file) {
 
 function toggleAddCityMode(forceDisable = false) {
     addCityMode = forceDisable ? false : !addCityMode;
-    console.log("Toggle Add City Mode called. New value: " + addCityMode);
     const addCityButton = document.getElementById('addCityButton');
     const drawPolygonButton = document.getElementById('drawPolygon');
     addCityButton.textContent = addCityMode ? 'Cancel Add City' : 'Add City';
@@ -287,7 +274,6 @@ function toggleAddCityMode(forceDisable = false) {
 
 function toggleDrawPolygonMode() {
     drawPolygonMode = !drawPolygonMode;
-    console.log("Toggle Draw Polygon Mode called. New value: " + drawPolygonMode);
     const drawPolygonButton = document.getElementById('drawPolygon');
     const addCityButton = document.getElementById('addCityButton');
     drawPolygonButton.textContent = drawPolygonMode ? 'Stop Drawing' : 'Add Region';
