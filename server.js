@@ -28,10 +28,8 @@ app.use(session({
 const staticOptions = {
     maxAge: '30d', // Cache static assets for 30 days
     setHeaders: (res, path) => {
-        if (path.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'public, max-age=1209600');
-        } else {
-            res.setHeader('Cache-Control', 'public, max-age=2592000'); // 30 days in seconds
+        if (path.includes('Dryle.png')) {
+            res.setHeader('Cache-Control', 'public, max-age=2592000');
         }
     },
 };
