@@ -22,7 +22,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Use true if using HTTPS
+    cookie: { secure: true } // Use true if using HTTPS
 }));
 
 // Use cache control
@@ -65,6 +65,10 @@ const uploadFolder = path.join(__dirname, 'public', 'cityImages');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const cityName = req.body.name;
+        console.log("City name:", cityName); // Debugging line
+        if (!cityName) {
+            return cb(new Error("City name is required"));
+        }
         const cityFolder = path.join(uploadFolder, cityName);
         if (!fs.existsSync(cityFolder)) {
             fs.mkdirSync(cityFolder, { recursive: true });
@@ -93,10 +97,22 @@ const upload = multer({
 
 // Handle file uploads
 app.post('/upload', upload.array('files'), (req, res) => {
-    const cityName = req.body.name;
-    const files = req.files;
-    const paths = files.map(file => `/cityImages/${cityName}/${file.filename}`);
-    res.json({ paths: paths });
+    try {
+        const cityName = req.body.name;
+        console.log("Received cityName:", cityName); // Debugging line
+        if (!cityName) {
+            throw new Error("City name is required");
+        }
+        const files = req.files;
+        if (!files) {
+            throw new Error('No files uploaded');
+        }
+        const paths = files.map(file => `/cityImages/${cityName}/${file.filename}`);
+        res.json({ paths: paths });
+    } catch (error) {
+        console.error('Error during file upload:', error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 // Import routes

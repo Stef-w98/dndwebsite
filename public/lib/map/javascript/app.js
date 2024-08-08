@@ -185,6 +185,8 @@ async function handleCityFormSubmit(e) {
         }
     });
 
+    console.log('City Data:', cityData);
+
     cityData.latitude = window.clickedLocation.lat;
     cityData.longitude = window.clickedLocation.lng;
 
@@ -201,22 +203,27 @@ async function handleCityFormSubmit(e) {
             const compressedFiles = await Promise.all(files.map(file => compressImage(file)));
 
             const newFormData = new FormData();
-            compressedFiles.forEach(file => {
-                newFormData.append('files', file);
-            });
             for (const [key, value] of formData.entries()) {
                 if (key !== 'files') {
                     newFormData.append(key, value);
                 }
             }
+            compressedFiles.forEach(file => {
+                newFormData.append('files', file);
+            });
 
-            const response = await fetch('http://localhost:3000/upload', { // Ensure the correct URL is used
+            // Log form data to debug
+            console.log("Form Data Before POST:", Array.from(newFormData.entries()));
+
+            const response = await fetch('http://localhost:3000/upload', {
                 method: 'POST',
                 body: newFormData
             });
 
             if (response.ok) {
-                const result = await response.json();
+                const result = await response.json().catch(err => {
+                    throw new Error("Failed to parse JSON response: " + err.message);
+                });
                 cityData.images = result.paths; // Store the uploaded image paths in the city data
 
                 // Add city to Supabase
@@ -232,11 +239,13 @@ async function handleCityFormSubmit(e) {
                 e.target.reset();
                 toggleAddCityMode(false);
             } else {
-                const errorData = await response.json();
-                alert(`Failed to upload images: ${errorData.error}`);
+                const errorText = await response.text();
+                alert(`Failed to upload images: ${errorText}`);
+                console.error('Failed to upload images:', errorText);
             }
         } catch (error) {
             alert(`Failed to add city: ${error.message}`);
+            console.error('Failed to add city:', error);
         }
     } else {
         document.getElementById('cityFormModal').style.display = 'none';
