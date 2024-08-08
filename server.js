@@ -21,13 +21,19 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: false } // Use true if using HTTPS
 }));
 
 // Serve static files with cache control
 const staticOptions = {
     maxAge: '30d', // Cache static assets for 30 days
-    etag: false,
+    setHeaders: (res, path) => {
+        if (path.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'no-cache');
+        } else {
+            res.setHeader('Cache-Control', 'public, max-age=2592000'); // 30 days in seconds
+        }
+    },
 };
 
 app.use(express.static(path.join(__dirname, 'public'), staticOptions));
