@@ -1,11 +1,9 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const cacheControl = require('express-cache-controller');
 const multer = require('multer');
 const { createClient } = require('@supabase/supabase-js');
 
@@ -23,18 +21,16 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Use true if using HTTPS
+    cookie: { secure: true }
 }));
 
-// Use cache control
-app.use(cacheControl({
-    noCache: true,
-    private: false,
-    mustRevalidate: true
-}));
+// Serve static files with cache control
+const staticOptions = {
+    maxAge: '30d', // Cache static assets for 30 days
+    etag: false,
+};
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), staticOptions));
 
 // CORS configuration
 app.use(cors({
@@ -49,6 +45,7 @@ const uploadFolder = path.join(__dirname, 'public', 'cityImages');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const cityName = req.body.name.replace(/ /g, '_'); // Replace spaces with underscores
+        console.log("Received cityName:", cityName); // Debugging line
         if (!cityName) {
             return cb(new Error("City name is required"));
         }
@@ -83,6 +80,7 @@ app.post('/upload', upload.array('files'), (req, res) => {
     try {
         const cityName = req.body.name.replace(/ /g, '_'); // Replace spaces with underscores
         const isCapital = req.body.capital === 'true'; // Note: req.body.capital will be a string
+        console.log(`Received cityName: ${cityName}, isCapital: ${isCapital}`); // Log the city name and capital status
         if (!cityName) {
             throw new Error("City name is required");
         }
