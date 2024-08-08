@@ -215,9 +215,10 @@ async function handleCityFormSubmit(e) {
             // Log form data to debug
             console.log("Form Data Before POST:", Array.from(newFormData.entries()));
 
-            const response = await fetch('http://localhost:3000/upload', {
+            const response = await fetch('https://www.dungeonsandmuffins.be/upload', { // Update the URL to your production server
                 method: 'POST',
-                body: newFormData
+                body: newFormData,
+                credentials: 'include' // Include cookies if needed
             });
 
             if (response.ok) {

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -22,7 +23,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } // Use true if using HTTPS
+    cookie: { secure: false } // Use true if using HTTPS
 }));
 
 // Use cache control
@@ -35,37 +36,20 @@ app.use(cacheControl({
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Fetch all map data
-app.get('/api/map-data', async (req, res) => {
-    res.set('Cache-Control', 'no-store');
-    try {
-        const { data: cities, error: citiesError } = await supabase.from('cities').select('*, images');
-        if (citiesError) throw citiesError;
-
-        const { data: regions, error: regionsError } = await supabase.from('regions').select('*');
-        if (regionsError) throw regionsError;
-
-        const { data: coordinates, error: coordinatesError } = await supabase.from('coordinates').select('*');
-        if (coordinatesError) throw coordinatesError;
-
-        const { data: weatherMarkers, error: weatherMarkersError } = await supabase.from('weathermarkers').select('*');
-        if (weatherMarkersError) throw weatherMarkersError;
-
-        const { data: weatherConditions, error: weatherConditionsError } = await supabase.from('weatherconditions').select('*');
-        if (weatherConditionsError) throw weatherConditionsError;
-
-        res.json({ cities, regions, coordinates, weatherMarkers, weatherConditions });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// CORS configuration
+app.use(cors({
+    origin: 'https://www.dungeonsandmuffins.be', // Allow only this origin
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true
+}));
 
 // Multer configuration for file uploads
 const uploadFolder = path.join(__dirname, 'public', 'cityImages');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const cityName = req.body.name;
-        console.log("City name:", cityName); // Debugging line
+        console.log("Received cityName:", cityName); // Debugging line
         if (!cityName) {
             return cb(new Error("City name is required"));
         }
@@ -99,7 +83,6 @@ const upload = multer({
 app.post('/upload', upload.array('files'), (req, res) => {
     try {
         const cityName = req.body.name;
-        console.log("Received cityName:", cityName); // Debugging line
         if (!cityName) {
             throw new Error("City name is required");
         }
@@ -127,24 +110,6 @@ app.use('/api', mapRoutes);
 app.use('/api', weatherRoutes);
 
 console.log('Routes setup complete');
-
-// Inventory data
-let inventory = [];
-
-// Inventory routes
-app.get('/inventory', (req, res) => {
-    res.json(inventory);
-});
-
-app.post('/inventory', (req, res) => {
-    const { quantity, name } = req.body;
-    if (quantity && name) {
-        inventory.push({ quantity, name });
-        res.status(201).json({ message: 'Item added successfully' });
-    } else {
-        res.status(400).json({ message: 'Invalid item data' });
-    }
-});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
