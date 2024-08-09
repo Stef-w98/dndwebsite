@@ -9,8 +9,8 @@ let regionsLayerGroup = L.layerGroup();
 let weatherLayerGroup = L.layerGroup();
 
 const mapConfigurations = {
-    Dryle: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/general/Dryle.png?v=1', hasData: true }, // Add a query string to the URL
-    Untherlands: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/general/Untherlands.png', hasData: false }
+    Dryle: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/maps/Dryle.png?v=1', hasData: true }, // Add a query string to the URL
+    Untherlands: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/maps/Untherlands.png', hasData: false }
 };
 
 // Function to switch maps

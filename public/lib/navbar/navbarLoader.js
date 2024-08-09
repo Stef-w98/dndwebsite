@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function() {
     // Fetch the navbar HTML and insert it into the navbar container
-    const response = await fetch('/lib/components/navbar.html');
+    const response = await fetch('/lib/navbar/navbar.html');
     if (response.ok) {
         const data = await response.text();
         document.getElementById('navbar-container').innerHTML = data;

@@ -11,6 +11,8 @@
     <orderEntry type="library" name="easymde" level="application" />
     <orderEntry type="library" name="showdown" level="application" />
     <orderEntry type="library" name="all" level="application" />
+    <orderEntry type="library" name="leaflet" level="application" />
+    <orderEntry type="library" name="compressorjs" level="application" />
     <orderEntry type="library" name="compressorjs" level="application" />
   </component>
 </module>

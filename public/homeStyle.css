@@ -7,7 +7,7 @@
     --container-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
     --transition-speed: 0.3s;
     --card-border-radius: 8px;
-    --hero-bg: url('../.././assets/images/castle.png') no-repeat center center/cover;
+    --hero-bg: url('assets/images/castle.png') no-repeat center center/cover;
     --hero-bg-overlay: rgba(0, 0, 0, 0.7);
 }
 
