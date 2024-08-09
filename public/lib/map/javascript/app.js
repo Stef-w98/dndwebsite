@@ -20,7 +20,7 @@ async function switchMap(mapConfig, mapName) {
     }
     document.getElementById('fantasyMap').innerHTML = ''; // Clear the container
 
-    currentMap = L.map('fantasyMap', { crs: L.CRS.Simple, minZoom: 1, maxZoom: 4 });
+    currentMap = L.map('fantasyMap', { crs: L.CRS.Simple, minZoom: 1, maxZoom: 4, fullscreenControl: true });
     L.imageOverlay(mapConfig.overlayUrl, mapConfig.bounds).addTo(currentMap);
     currentMap.fitBounds(mapConfig.bounds);
 
