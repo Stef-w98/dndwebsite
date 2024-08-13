@@ -50,7 +50,7 @@ app.use('/api', authRoutes);
 app.use('/api', dataRoutes);
 app.use('/api', mapRoutes);
 app.use('/api', weatherRoutes);
-app.use('/api', uploadRoutes); // Use the upload routes
+app.use('/api', uploadRoutes);
 
 console.log('Routes setup complete');
 
