@@ -210,10 +210,10 @@ async function handleCityFormSubmit(e) {
             // Add the 'capital' field to the FormData
             newFormData.append('capital', cityData.capital);
 
-            const response = await fetch('https://www.dungeonsandmuffins.be/upload', { // Update the URL to your production server
+            const response = await fetch('https://www.dungeonsandmuffins.be/api/upload', { // Corrected URL to match the route setup
                 method: 'POST',
                 body: newFormData,
-                credentials: 'include' // Include cookies if needed
+                credentials: 'include'
             });
 
             if (response.ok) {
