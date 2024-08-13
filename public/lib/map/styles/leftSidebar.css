@@ -12,6 +12,7 @@
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 20px;
+    overflow-y: auto;
 }
 
 .left-sidebar.open {
