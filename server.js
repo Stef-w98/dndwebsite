@@ -31,6 +31,14 @@ const staticOptions = {
 
 app.use(express.static(path.join(__dirname, 'public'), staticOptions));
 
+app.use('/assets/images', express.static(path.join(__dirname, 'public/assets/images'), {
+    maxAge: '365d' // Cache for 1 year
+}));
+
+app.use('/lib/map/assets/maps', express.static(path.join(__dirname, 'public/lib/map/assets/maps'), {
+    maxAge: '365d' // Cache for 1 year
+}));
+
 // CORS configuration
 app.use(cors({
     origin: 'https://www.dungeonsandmuffins.be', // Allow only this origin
