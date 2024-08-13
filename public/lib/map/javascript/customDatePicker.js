@@ -29,8 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentYear = calendarData.year;
 
     dateInput.addEventListener('click', () => {
-        datePickerPopup.style.display = 'block';
-        drawCalendar(currentMonthIndex, currentYear);
+        // Toggle the visibility of the date picker popup
+        if (datePickerPopup.style.display === 'block') {
+            datePickerPopup.style.display = 'none';
+        } else {
+            datePickerPopup.style.display = 'block';
+            drawCalendar(currentMonthIndex, currentYear);
+        }
+    });
+
+// Optionally close the date picker if clicking outside the calendar
+    document.addEventListener('click', (event) => {
+        if (!datePickerPopup.contains(event.target) && event.target !== dateInput) {
+            datePickerPopup.style.display = 'none';
+        }
     });
 
     prevMonthButton.addEventListener('click', () => {

@@ -34,49 +34,51 @@
 <header id="navbar-container"></header>
 <div id="left-sidebar" class="left-sidebar">
     <div class="hamburger-icon" onclick="toggleLeftSidebar()">&#9776;</div> <!-- Hamburger icon -->
-    <div class="left-sidebar-content">
-        <h2>Maps</h2>
-        <label>
-            <input type="radio" name="mapSelector" id="map1" checked> Dryle
-        </label>
-        <label>
-            <input type="radio" name="mapSelector" id="map2"> Untherlands
-        </label>
-        <h2>Layers</h2>
-        <label>
-            <input type="checkbox" id="toggle-cities" checked> Cities
-        </label>
-        <label>
-            <input type="checkbox" id="toggle-regions"> Regions
-        </label>
-        <label>
-            <input type="checkbox" id="toggle-weather"> Weather
-        </label>
-        <h2>Date Picker</h2>
-        <div id="customDatePicker">
-            <label for="dateInput">Select a date:</label>
-            <input type="text" id="dateInput" readonly>
-            <div id="datePickerPopup" class="date-picker-popup">
-                <div id="calendarNavigation">
-                    <button id="prevYear">&laquo;</button>
-                    <button id="prevMonth">&lt;</button>
-                    <span id="calendarHeader"></span>
-                    <button id="nextMonth">&gt;</button>
-                    <button id="nextYear">&raquo;</button>
+    <div class="scrollable-content">
+        <div class="left-sidebar-content">
+            <h2>Maps</h2>
+            <label>
+                <input type="radio" name="mapSelector" id="map1" checked> Dryle
+            </label>
+            <label>
+                <input type="radio" name="mapSelector" id="map2"> Untherlands
+            </label>
+            <h2>Layers</h2>
+            <label>
+                <input type="checkbox" id="toggle-cities" checked> Cities
+            </label>
+            <label>
+                <input type="checkbox" id="toggle-regions"> Regions
+            </label>
+            <label>
+                <input type="checkbox" id="toggle-weather"> Weather
+            </label>
+            <h2>Date Picker</h2>
+            <div id="customDatePicker">
+                <label for="dateInput">Select a date:</label>
+                <input type="text" id="dateInput" readonly>
+                <div id="datePickerPopup" class="date-picker-popup">
+                    <div id="calendarNavigation">
+                        <button id="prevYear">&laquo;</button>
+                        <button id="prevMonth">&lt;</button>
+                        <span id="calendarHeader"></span>
+                        <button id="nextMonth">&gt;</button>
+                        <button id="nextYear">&raquo;</button>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr id="weekdaysHeader"></tr>
+                        </thead>
+                        <tbody id="calendarBody"></tbody>
+                    </table>
                 </div>
-                <table>
-                    <thead>
-                    <tr id="weekdaysHeader"></tr>
-                    </thead>
-                    <tbody id="calendarBody"></tbody>
-                </table>
             </div>
+            <h2>Admin Tools</h2>
+            <button id="addCityButton">Add City</button>
+            <button id="drawPolygon">Add Region</button>
+            <h2>Regions</h2>
+            <div id="regionList"></div>
         </div>
-        <h2>Admin Tools</h2>
-        <button id="addCityButton">Add City</button>
-        <button id="drawPolygon">Add Region</button>
-        <h2>Regions</h2>
-        <div id="regionList"></div>
     </div>
 </div>
 <div id="sidebar" class="sidebar">

@@ -14,19 +14,20 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #2C3E50; /* Dark background color */
-    color: #ECF0F1; /* Light text color */
+    background-color: #2C3E50;
+    color: #ECF0F1;
 }
 
 .date-picker-popup {
     display: none;
     position: absolute;
-    z-index: 1001;
-    background-color: #2C3E50; /* Dark background color */
+    z-index: 1002;
+    background-color: #2C3E50;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 10px;
-    color: #ECF0F1; /* Light text color */
+    overflow: visible;
+    color: #ECF0F1;
 }
 
 .date-picker-popup table {
@@ -41,17 +42,17 @@
 }
 
 .date-picker-popup th {
-    background-color: #34495E; /* Slightly lighter background for headers */
-    color: #ECF0F1; /* Light text color */
+    background-color: #34495E;
+    color: #ECF0F1;
 }
 
 .date-picker-popup td {
-    background-color: #2C3E50; /* Dark background color */
-    color: #ECF0F1; /* Light text color */
+    background-color: #2C3E50;
+    color: #ECF0F1;
 }
 
 .date-picker-popup td:hover {
-    background-color: #384B61; /* Slightly lighter on hover */
+    background-color: #384B61;
 }
 
 #calendarNavigation {
@@ -62,8 +63,8 @@
 }
 
 #calendarNavigation button {
-    background-color: #2C3E50; /* Dark background color */
-    color: #ECF0F1; /* Light text color */
+    background-color: #2C3E50;
+    color: #ECF0F1;
     border: 1px solid #ccc;
     padding: 5px 10px;
     cursor: pointer;
@@ -71,5 +72,5 @@
 }
 
 #calendarNavigation button:hover {
-    background-color: #384B61; /* Slightly lighter on hover */
+    background-color: #384B61;
 }
