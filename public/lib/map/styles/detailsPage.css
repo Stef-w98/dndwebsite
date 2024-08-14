@@ -119,8 +119,6 @@ button:hover {
     position: relative;
     width: 100%;
     max-width: 1000px;
-    height: 100%;
-    margin: auto;
 }
 
 .gallery-image {
