@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Character</title>
+    <link rel="stylesheet" href="styles/character.css">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Character Details</h1>
+    <form id="character-form">
+        <div class="form-group">
+            <label for="character-name">Character Name:</label>
+            <input type="text" id="character-name" name="character-name" required>
+        </div>
+        <div class="form-group">
+            <label for="character-class">Class:</label>
+            <input type="text" id="character-class" name="character-class" required>
+        </div>
+        <div class="form-group">
+            <label for="character-level">Level:</label>
+            <input type="number" id="character-level" name="character-level" required>
+        </div>
+        <div class="form-group">
+            <label for="character-backstory">Backstory:</label>
+            <textarea id="character-backstory" name="character-backstory" rows="5"></textarea>
+        </div>
+        <button type="submit">Save Character</button>
+    </form>
+    <div class="character-links">
+        <a href="inventory.html" class="btn">Manage Inventory</a>
+    </div>
+</div>
+<script src="javascript/character.js"></script>
+</body>
+</html>

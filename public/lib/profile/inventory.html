@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Inventory</title>
+    <link rel="stylesheet" href="styles/inventory.css">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'MedievalSharp', cursive;
+            background-color: #2d2a26;
+            color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-section, .inventory-section {
+            width: 50%;
+            padding: 10px;
+        }
+
+        h1, h2 {
+            color: #d4af37;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #f4f4f4;
+            color: #000;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #d4af37;
+            border: none;
+            color: #000;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #b38e2f;
+        }
+
+        .inventory-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .inventory-section li {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: #000;
+            transition: background-color 0.3s;
+        }
+
+        .inventory-section li:hover {
+            background-color: #f4e4bc;
+        }
+
+        .currency-display {
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .currency-display p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-section">
+        <h1>Inventory Management</h1>
+        <form id="inventory-form">
+            <div class="form-group">
+                <label for="item-name">Item Name:</label>
+                <input type="text" id="item-name" name="item-name" required>
+            </div>
+            <div class="form-group">
+                <label for="item-quantity">Quantity:</label>
+                <input type="number" id="item-quantity" name="item-quantity" required>
+            </div>
+            <button type="submit">Add Item</button>
+        </form>
+        <h2>Manage Gold</h2>
+        <div class="currency-display" id="currency-display">
+            <p>Copper: <span id="cp">0</span></p>
+            <p>Silver: <span id="sp">0</span></p>
+            <p>Gold: <span id="gp">0</span></p>
+            <p>Platinum: <span id="pp">0</span></p>
+        </div>
+        <form id="gold-form">
+            <div class="form-group">
+                <label for="copper">Copper Pieces:</label>
+                <input type="number" id="copper" name="copper" value="0" min="0">
+            </div>
+            <div class="form-group">
+                <label for="silver">Silver Pieces:</label>
+                <input type="number" id="silver" name="silver" value="0" min="0">
+            </div>
+            <div class="form-group">
+                <label for="gold">Gold Pieces:</label>
+                <input type="number" id="gold" name="gold" value="0" min="0">
+            </div>
+            <div class="form-group">
+                <label for="platinum">Platinum Pieces:</label>
+                <input type="number" id="platinum" name="platinum" value="0" min="0">
+            </div>
+            <button type="button" onclick="updateGold('add')">Add</button>
+            <button type="button" onclick="updateGold('subtract')">Subtract</button>
+        </form>
+    </div>
+    <div class="inventory-section">
+        <h2>Your Inventory</h2>
+        <ul id="inventory-list">
+            <!-- Inventory items will be displayed here -->
+        </ul>
+    </div>
+</div>
+<script src="javascript/inventory.js"></script>
+</body>
+</html>
