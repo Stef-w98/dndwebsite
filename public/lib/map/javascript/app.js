@@ -9,7 +9,7 @@ let regionsLayerGroup = L.layerGroup();
 let weatherLayerGroup = L.layerGroup();
 
 const mapConfigurations = {
-    Dryle: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/maps/Dryle.png?v=1', hasData: true }, // Add a query string to the URL
+    Dryle: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/maps/Dryle.png?v=1', hasData: true },
     Untherlands: { bounds: [[0, 0], [562.5, 1000]], overlayUrl: './assets/maps/Untherlands.png', hasData: false }
 };
 
@@ -20,7 +20,15 @@ async function switchMap(mapConfig, mapName) {
     }
     document.getElementById('fantasyMap').innerHTML = ''; // Clear the container
 
-    currentMap = L.map('fantasyMap', { crs: L.CRS.Simple, minZoom: 1, maxZoom: 4, fullscreenControl: true });
+    currentMap = L.map('fantasyMap', {
+        crs: L.CRS.Simple,
+        minZoom: 1,
+        maxZoom: 4,
+        fullscreenControl: true,
+        maxBounds: mapConfig.bounds, // Set maxBounds to the map's bounds
+        maxBoundsViscosity: 1.0 // Optional: Makes panning near the edge slower, giving a "sticky" feeling
+    });
+
     L.imageOverlay(mapConfig.overlayUrl, mapConfig.bounds).addTo(currentMap);
     currentMap.fitBounds(mapConfig.bounds);
 
