@@ -39,8 +39,8 @@ app.use('/api', mapRoutes);
 
 console.log('Routes setup complete');
 
-// Start the server
-const PORT = 80; // Use port 80 for public access
+// Start the server with dynamic port
+const PORT = process.env.PORT || 80;
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
